@@ -21,8 +21,9 @@ class MyDocuments extends Document {
           <meta charSet="utf-8" />
           <meta name="robots" content="" />
           <link rel="icon" href="/web.png" />
-          <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
           <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet"></link>
+          <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+          <link rel="stylesheet" href="/css/basic.css" />
           {this.props.styleTags}
         </Head>
         <body>
@@ -30,7 +31,6 @@ class MyDocuments extends Document {
           <NextScript />
         </body>
       </html>
-
     )
   }
 }

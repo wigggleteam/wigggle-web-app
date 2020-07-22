@@ -4,7 +4,7 @@ import Home from '../src/Home';
 
 export default () => {
   return (
-    <div className="container">
+    <div>
       <Head>
         <title>Home</title>
       </Head>
