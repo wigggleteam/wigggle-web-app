@@ -1,19 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PictureContainer = ({ title, first }) => {
-  return (
-    <img src='https://via.placeholder.com/150' height='150' className={first ? 'first' : ''} />
-  )
-}
-
 export const Discover = () => {
-
-  const categories = new Array(15).fill(1);
-
-  const horizontalScroll = (e) => {
-    console.log('Scrolling')
-  }
 
   return (
     <>
