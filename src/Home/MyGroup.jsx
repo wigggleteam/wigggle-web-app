@@ -17,12 +17,12 @@ const Groups = styled.div`
   width: 80vw;
   margin: 30px auto;
   text-align: center;
-`
+`;
 
 const Heading = styled.h2`
   font-size: 40px;
   color: #111;
-`
+`;
 
 const Subheading = styled.h3`
   width: 40vw;
@@ -43,4 +43,8 @@ const Button = styled.button`
   opacity: 1;
   margin: 35px 0;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 `
