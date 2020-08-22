@@ -4,6 +4,7 @@ import { NearYou } from './NearYou';
 import { Discover } from './Discover';
 import { Events } from './Events';
 import { MyGroup } from './MyGroup';
+import { Footer } from './Footer';
 
 export const Home = () => {
   return (
@@ -13,6 +14,7 @@ export const Home = () => {
       <Discover />
       <Events />
       <MyGroup />
+      <Footer />
     </>
   )
 }

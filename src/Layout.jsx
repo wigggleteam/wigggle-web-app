@@ -1,13 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Input, Menu, Icon, MenuItem } from 'semantic-ui-react';
+import {
+  Checkbox,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  Menu,
+  MenuItem,
+  Segment,
+  Sidebar
+} from 'semantic-ui-react';
+
+const SideMenu = ({ children, visible, setVisible }) => {
+
+  return (
+    <Sidebar.Pushable as={Segment}>
+      <Sidebar
+        as={Menu}
+        animation='overlay'
+        icon='labeled'
+        onHide={() => setVisible(false)}
+        vertical
+        visible={visible}
+        width='thin'
+      >
+        <Menu.Item as='a'>
+          <Icon name='home' />
+              Home
+            </Menu.Item>
+        <Menu.Item as='a'>
+          <Icon name='gamepad' />
+              Games
+            </Menu.Item>
+        <Menu.Item as='a'>
+          <Icon name='camera' />
+              Channels
+            </Menu.Item>
+      </Sidebar>
+
+      <Sidebar.Pusher dimmed={visible}>
+        {children}
+      </Sidebar.Pusher>
+    </Sidebar.Pushable>
+  )
+}
 
 
-export default ({ children }) => (
+const BasicLayout = ({ children, setVisible }) => (
   <Body>
     <Menu size='huge'>
       <Menu.Menu position='left'>
-        <MenuBox width='10vw'>
+        <MenuBox width='10vw' onClick={(e) => setVisible(true)}>
           <MenuText><Icon name='bars' size='large' /> Menu </MenuText>
         </MenuBox>
         <MenuBox width='5vw'>
@@ -19,7 +63,7 @@ export default ({ children }) => (
       </CenterBox>
       <Menu.Menu position='right'>
         <MenuBox width='10vw'>
-           <MenuText fontSize='12px'> <Icon name='circle' size='small' style={{color:'#fe4356'}} /> Bangalore</MenuText>
+          <MenuText fontSize='12px'> <Icon name='circle' size='small' style={{ color: '#fe4356' }} /> Bangalore</MenuText>
         </MenuBox>
         <MenuBox width='10vw'>
           <MenuText> Logout </MenuText>
@@ -32,6 +76,19 @@ export default ({ children }) => (
     {children}
   </Body>
 )
+
+export default ({ children }) => {
+
+  const [visible, setVisible] = React.useState(false);
+
+  return (
+    <SideMenu visible={visible} setVisible={setVisible}>
+      <BasicLayout setVisible={setVisible}>
+        {children}
+      </BasicLayout>
+    </SideMenu>
+  )
+}
 
 
 /* Styled Components */
