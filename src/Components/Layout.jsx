@@ -11,6 +11,7 @@ import {
   Segment,
   Sidebar
 } from 'semantic-ui-react';
+import AuthUserModal from './Authentication';
 
 const SideMenu = ({ children, visible, setVisible }) => {
 
@@ -85,6 +86,7 @@ export default ({ children }) => {
     <SideMenu visible={visible} setVisible={setVisible}>
       <BasicLayout setVisible={setVisible}>
         {children}
+        <AuthUserModal />
       </BasicLayout>
     </SideMenu>
   )

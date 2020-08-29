@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import Layout from '../src/Layout';
-import Home from '../src/Home';
+import Layout from '../src/Components/Layout';
+import Home from '../src/Components/Home';
 
 export default () => {
   return (
