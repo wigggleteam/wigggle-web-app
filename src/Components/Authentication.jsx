@@ -1,17 +1,46 @@
 import React from 'react';
 import { Button, Divider, Grid, Icon, Input } from 'semantic-ui-react'
 import styled from 'styled-components';
+import { isValidEmail, isValidMobile } from '../utils/validations';
 
 export default class AuthUserModal extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      credential: '',
+      fieldType: undefined,
+      fieldValue: '',
     }
   }
 
+  validate = () => {
+    this.setState({loading: true});
+    const validEmail = isValidEmail(this.state.credential);
+    const validMobile = isValidMobile(this.state.credential);
+    if(validEmail || validMobile){
+      if(validEmail){
+        this.setState({fieldType: 'password'})
+      }
+      if(validMobile){
+        this.setState({fieldType: 'otp'})
+      }
+    }
+    setTimeout(()=>this.setState({loading: false}), 900);
+  }
+
+  login = () => {
+    const {credential, fieldValue } = this.state;
+    console.log(credential, fieldValue);
+  }
+
   render() {
+    const { fieldType, credential, fieldValue } = this.state;
+    let display = 'none';
+    if(fieldType){
+      display = undefined;
+    }
     return (
       <AuthWindow>
           <Icon name='close' style={{ float: 'right', cursor: 'pointer' }} />
@@ -37,8 +66,21 @@ export default class AuthUserModal extends React.Component {
           </div>
           <div style={{width: '60%',  margin: '0 auto'}}>
             <p>Enter your Number / Email</p>
-            <Input loading={this.state.loading} placeholder='Email/Number' style={{width: '90%'}} />
-            <Button style={{backgroundColor: '#F24C59', width: '150px', color: '#fff', marginTop: '15px' }}>Continue</Button>
+            <Input  
+              placeholder='Email/Number' 
+              disabled={fieldType ? true : false}
+              value={credential}
+              onChange={(e)=>this.setState({credential: e.target.value})}
+              style={{width: '90%'}} />
+            <Input
+              type='password'
+              placeholder={ fieldType === 'password' ? 'Enter Password' : 'Enter OTP' } 
+              value={fieldValue}
+              onChange={(e)=>this.setState({fieldValue: e.target.value})}
+              style={{width: '90%', marginTop: '10px', display }} />
+            <Button loading={this.state.loading} style={{backgroundColor: '#F24C59', width: '150px', color: '#fff', marginTop: '15px' }} onClick={() => {fieldType ? this.login() : this.validate()}}>
+              {fieldType ? 'Sign in' : 'Continue'}
+            </Button>
             <p style={{fontSize: '12px', marginTop: '10px'}}>By signing In, I agree to Terms and Condition</p>
           </div>
         </AuthWindow>
@@ -77,6 +119,7 @@ const SocialMedia = styled.div`
   font-weight: 600;
   height: 50px;
   padding: 10px 0;
+  cursor: pointer;
 `;
 
 
