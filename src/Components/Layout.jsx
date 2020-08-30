@@ -11,6 +11,7 @@ import {
   Grid
 } from 'semantic-ui-react';
 import AuthUserModal from './Authentication';
+import { Footer } from './Footer';
 import { categories } from '../constants/categories';
 
 const ProfileBox = () => {
@@ -89,6 +90,7 @@ const BasicLayout = ({ children, setVisible, setLoginVisible }) => (
       </MenuBox>
     </Menu>
     {children}
+    <Footer />
   </Body>
 )
 
