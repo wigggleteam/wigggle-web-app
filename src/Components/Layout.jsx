@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {
-  Checkbox,
-  Grid,
-  Header,
   Icon,
-  Image,
   Menu,
   MenuItem,
   Segment,
@@ -48,7 +44,7 @@ const SideMenu = ({ children, visible, setVisible }) => {
 }
 
 
-const BasicLayout = ({ children, setVisible }) => (
+const BasicLayout = ({ children, setVisible, setLoginVisible }) => (
   <Body>
     <Menu size='huge'>
       <Menu.Menu position='left'>
@@ -66,8 +62,8 @@ const BasicLayout = ({ children, setVisible }) => (
         <MenuBox width='10vw'>
           <MenuText fontSize='12px'> <Icon name='circle' size='small' style={{ color: '#fe4356' }} /> Bangalore</MenuText>
         </MenuBox>
-        <MenuBox width='10vw'>
-          <MenuText> Logout </MenuText>
+        <MenuBox width='10vw' onClick={(e) => {setLoginVisible(true)}}>
+          <MenuText> Login </MenuText>
         </MenuBox>
       </Menu.Menu>
       <MenuBox width='15vw' style={{ backgroundColor: '#fe4356', textAlign: 'center' }}>
@@ -81,12 +77,13 @@ const BasicLayout = ({ children, setVisible }) => (
 export default ({ children }) => {
 
   const [visible, setVisible] = React.useState(false);
+  const [loginVisible, setLoginVisible] = React.useState(false);
 
   return (
     <SideMenu visible={visible} setVisible={setVisible}>
-      <BasicLayout setVisible={setVisible}>
+      <BasicLayout setVisible={setVisible} setLoginVisible={setLoginVisible}>
         {children}
-        <AuthUserModal />
+        {loginVisible ? <AuthUserModal setLoginVisible={setLoginVisible} /> : '' }
       </BasicLayout>
     </SideMenu>
   )

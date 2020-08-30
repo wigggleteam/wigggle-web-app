@@ -2,7 +2,7 @@ import { takeLatest, put, call } from 'redux-saga/effects';
 
 import { setUserAction, unsetUserAction,} from './actions';
 import { LOGIN_REQUEST } from './actions';
-// import { signInWithCredentials } from '../../authentication/emailAuth';
+import { signInWithCredentials } from '../../authentication/emailAuth';
 // import { currentUser, logoutUser, userAuthStatus, signupUser } from '../../services';
 
 
@@ -20,9 +20,9 @@ function* fetchAuthenticatedUser({ type, payload = {} }) {
 
 function* authRequestWorker({ type, payload = {}}){
   const { method, credentials } = payload;
-  // if(method === 'email'){
-  //   const data = yield call(signInWithCredentials, payload);
-  // }
+  if(method === 'email'){
+    const data = yield call(signInWithCredentials, credentials);
+  }
 }
 
 //Watcher Saga 
