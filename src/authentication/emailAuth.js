@@ -1,6 +1,7 @@
 import auth from './initialize';
 
 export const signInWithCredentials = ({email, password}) => {
+  console.log('Signin Request... ',email, password)
   return auth.signInWithEmailAndPassword(email, password);
 }
 

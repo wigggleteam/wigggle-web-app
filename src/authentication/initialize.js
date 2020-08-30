@@ -1,11 +1,10 @@
-"use strict";
+import firebaseApp from '../firebase/initialize';
+import { useDispatch } from 'react-redux'
+import { setUserAction, unsetUserAction } from '../model/auth/actions';
 
-import firebase from 'firebase';
+const auth = firebaseApp.auth();
 
-const auth = firebase.auth();
+console.log(auth.currentUser);
 
-auth.onAuthStateChanged(firebaseUser => {
-  console.log(firebaseUser);
-})
 
 export default auth;
