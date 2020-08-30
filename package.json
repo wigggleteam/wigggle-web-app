@@ -12,6 +12,7 @@
   "dependencies": {
     "detect-node": "^2.0.4",
     "firebase": "^7.19.0",
+    "lodash": "^4.17.20",
     "next": "9.4.4",
     "next-i18next": "^4.5.0",
     "next-redux-wrapper": "^6.0.2",

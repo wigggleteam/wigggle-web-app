@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { loginRequest } from '../model/auth/actions';
 import { Button, Divider, Grid, Icon, Input } from 'semantic-ui-react'
 import styled from 'styled-components';
 import { isValidEmail, isValidMobile } from '../utils/validations';
 
-export default class AuthUserModal extends React.Component {
+class AuthUserModal extends React.Component {
 
   constructor(props) {
     super(props);
@@ -32,7 +34,11 @@ export default class AuthUserModal extends React.Component {
 
   login = () => {
     const {credential, fieldValue } = this.state;
-    console.log(credential, fieldValue);
+    const payload = {
+      email: credential,
+      password: fieldValue
+    }
+    this.props.loginRequest('email', payload);
   }
 
   render() {
@@ -87,6 +93,20 @@ export default class AuthUserModal extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginRequest: (method, credentials) => dispatch(loginRequest(method, credentials)),
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AuthUserModal);
 
 const AuthWindow = styled.div`
   position: absolute;

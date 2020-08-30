@@ -1,13 +1,12 @@
 import { HYDRATE } from 'next-redux-wrapper';
-import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist';
+
 
 const initialState = {
   isLoading: false,
   user: null,
 }
 
-function reducer(state, action){
+function _reducer(state = initialState, action){
   switch (action.type) {
     case HYDRATE: {
       return { ...state, ...action.payload }
@@ -17,10 +16,21 @@ function reducer(state, action){
   };
 }
 
-const persistConfig = { 
-  key: 'auth',
-  storage,
-  blacklist: ['error', 'signupError'],
-};
+let reducer;
+var isNode = require('detect-node');
+if (!isNode) {
+  const { persistReducer } = require('redux-persist');
+  const storage = require('redux-persist/lib/storage').default;
 
-export default persistReducer(persistConfig, authReducer);
+  const persistConfig = { 
+    key: 'auth',
+    storage,
+    blacklist: [],
+  };
+
+  reducer = persistReducer(persistConfig, _reducer)
+}else{
+  reducer = _reducer;
+}
+
+export default reducer;

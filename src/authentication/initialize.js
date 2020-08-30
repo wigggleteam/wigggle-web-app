@@ -1,11 +1,10 @@
-"use strict";
+import firebaseApp from '../firebase/initialize';
+import { setUserAction, unsetUserAction } from '../model/auth/actions';
 
-import firebase from 'firebase';
-
-const auth = firebase.auth();
+const auth = firebaseApp.auth();
 
 auth.onAuthStateChanged(firebaseUser => {
-  console.log(firebaseUser);
+  console.log('Is this wokring?',firebaseUser);
 })
 
 export default auth;
