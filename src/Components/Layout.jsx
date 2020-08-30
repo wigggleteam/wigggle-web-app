@@ -1,13 +1,33 @@
 import React from 'react';
+import _ from 'lodash';
 import styled from 'styled-components';
 import {
   Icon,
+  Image,
   Menu,
   MenuItem,
   Segment,
-  Sidebar
+  Sidebar,
+  Grid
 } from 'semantic-ui-react';
 import AuthUserModal from './Authentication';
+import { categories } from '../constants/categories';
+
+const ProfileBox = () => {
+  return (
+    <Grid style={{padding: '10px'}}>
+      <Grid.Row>
+        <Grid.Column width={6}>
+          <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='medium' circular />
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <Welcome>Hi, Guest</Welcome>
+          <Join>Lets know each other better</Join>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  )
+}
 
 const SideMenu = ({ children, visible, setVisible }) => {
 
@@ -20,20 +40,18 @@ const SideMenu = ({ children, visible, setVisible }) => {
         onHide={() => setVisible(false)}
         vertical
         visible={visible}
-        width='thin'
+        width='wide'
       >
-        <Menu.Item as='a'>
-          <Icon name='home' />
-              Home
-            </Menu.Item>
-        <Menu.Item as='a'>
-          <Icon name='gamepad' />
-              Games
-            </Menu.Item>
-        <Menu.Item as='a'>
-          <Icon name='camera' />
-              Channels
-            </Menu.Item>
+        <Menu.Item as='a' style={{ padding: '20px 0' }}>
+          <ProfileBox />
+        </Menu.Item>
+
+        {_.map(categories, (category) => {
+          return (
+            <Menu.Item as='a' style={{ padding: '20px 0' }}>
+              <Category>{category.label}</Category>
+            </Menu.Item>)
+        })}
       </Sidebar>
 
       <Sidebar.Pusher dimmed={visible}>
@@ -62,7 +80,7 @@ const BasicLayout = ({ children, setVisible, setLoginVisible }) => (
         <MenuBox width='10vw'>
           <MenuText fontSize='12px'> <Icon name='circle' size='small' style={{ color: '#fe4356' }} /> Bangalore</MenuText>
         </MenuBox>
-        <MenuBox width='10vw' onClick={(e) => {setLoginVisible(true)}}>
+        <MenuBox width='10vw' onClick={(e) => { setLoginVisible(true) }}>
           <MenuText> Login </MenuText>
         </MenuBox>
       </Menu.Menu>
@@ -83,7 +101,7 @@ export default ({ children }) => {
     <SideMenu visible={visible} setVisible={setVisible}>
       <BasicLayout setVisible={setVisible} setLoginVisible={setLoginVisible}>
         {children}
-        {loginVisible ? <AuthUserModal setLoginVisible={setLoginVisible} /> : '' }
+        {loginVisible ? <AuthUserModal setLoginVisible={setLoginVisible} /> : ''}
       </BasicLayout>
     </SideMenu>
   )
@@ -134,4 +152,23 @@ const MenuBox = styled(MenuItem)`
 
 const Logo = styled.h2`
   font-weight: 500;
+`;
+
+const Category = styled.h3`
+  margin: 10px 20px;
+  text-align: left;
+  font-weight: 500;
+`;
+
+const Welcome = styled.h3`
+  text-align: left;
+  font-weight: 500;
+  margin: 5px;
+`
+
+const Join = styled.h5`
+  text-align: left;
+  font-weight: 500;
+  margin: 5px;
+  color: #888;
 `
