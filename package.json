@@ -12,6 +12,7 @@
   "dependencies": {
     "detect-node": "^2.0.4",
     "dotenv": "^8.2.0",
+    "faker": "^5.1.0",
     "firebase": "^7.19.0",
     "lodash": "^4.17.20",
     "next": "9.4.4",
