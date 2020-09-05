@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Grid } from 'semantic-ui-react';
 import { Filter } from './Filter';
 import { Events } from './Events';
 import { getEventsFromFireStore } from '../../firebase/firestoreServices';
+import { fetchDataFromEventSnapshot } from '../../firebase/utils';
+import { setEvents } from '../../model/showcase/actions';
 
-export default class extends Component{
+class ShowCase extends Component{
 
   constructor(props) {
     super(props);
@@ -16,7 +19,7 @@ export default class extends Component{
 
   componentDidMount(){
     this.unsubscribe = getEventsFromFireStore({
-      next: (snapshot) => { snapshot.docs.map(docSnapshot => console.log(docSnapshot.data())) },
+      next: (snapshot) => this.props.setEvents(snapshot.docs.map(fetchDataFromEventSnapshot)), 
       error: console.log
     })
   }
@@ -26,6 +29,7 @@ export default class extends Component{
   }
 
   render(){
+    const { showcase } = this.props;
 
     return(
       <Container>
@@ -40,16 +44,28 @@ export default class extends Component{
             </Grid.Column>
             <Grid.Column width={12}>
               <p><Subheading active={true}>All</Subheading> <Subheading>Food</Subheading> <Subheading>Personality Building</Subheading> <Subheading>Physical Wellness</Subheading> <Subheading>Mental Health</Subheading> </p>
-              <Events />
+              <Events events={showcase.events} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </Container>
     )
   }
-
-
 }
+
+const mapStateToProps = (state) => {
+  return {
+    showcase: state.showcase,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setEvents: (events) => dispatch(setEvents(events)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShowCase);
 
 const Container = styled.div`
   width: 90vw;
@@ -63,4 +79,4 @@ const Subheading = styled.span`
   margin: 0 10px;
   padding: 5px;
   cursor: pointer;
-`
+`;

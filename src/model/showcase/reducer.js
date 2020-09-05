@@ -1,14 +1,19 @@
 import { HYDRATE } from 'next-redux-wrapper';
+import { SET_EVENTS } from './actions';
 
 const initialState = {
-  isLoading: false,
-  user: null,
+  events: [],
+  filters: {}
 }
 
 function _reducer(state = initialState, action){
   switch (action.type) {
     case HYDRATE: {
       return { ...state }
+    }
+    case SET_EVENTS: {
+      const events = _.cloneDeep(action.payload);
+      return { ...state, events }
     }
     default:
       return state;
@@ -22,7 +27,7 @@ if (!isNode) {
   const storage = require('redux-persist/lib/storage').default;
 
   const persistConfig = { 
-    key: 'auth',
+    key: 'events',
     storage,
     blacklist: [],
   };

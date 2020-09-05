@@ -13,6 +13,7 @@ import {
 import AuthUserModal from './Authentication';
 import { Footer } from './Footer';
 import { categories } from '../constants/categories';
+import Link from 'next/link';
 
 const ProfileBox = () => {
   return (
@@ -49,9 +50,12 @@ const SideMenu = ({ children, visible, setVisible }) => {
 
         {_.map(categories, (category) => {
           return (
-            <Menu.Item as='a' style={{ padding: '20px 0' }}>
-              <Category>{category.label}</Category>
-            </Menu.Item>)
+            <Link href='/showcase'>
+              <Menu.Item as='a' style={{ padding: '20px 0' }}>
+                <Category>{category.label}</Category>
+              </Menu.Item>
+            </Link>
+            )
         })}
       </Sidebar>
 
@@ -75,7 +79,9 @@ const BasicLayout = ({ children, setVisible, setLoginVisible }) => (
         </MenuBox>
       </Menu.Menu>
       <CenterBox width='50vw'>
-        <Logo style={{ width: '100%', textAlign: 'center', fontFamily: `'Quicksand', sans-serif !important` }}>Wigggle</Logo>
+        <Link href='/'>
+          <Logo style={{ width: '100%', textAlign: 'center', fontFamily: `'Quicksand', sans-serif !important`, cursor: 'pointer' }}>Wigggle</Logo>
+        </Link>
       </CenterBox>
       <Menu.Menu position='right'>
         <MenuBox width='10vw'>
