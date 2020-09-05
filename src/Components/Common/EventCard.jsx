@@ -26,7 +26,7 @@ export const EventCard = ({event, ...props}) => {
         <Card.Header>{event && event.title} 
           <span style={{float: 'right'}}>Rs {event.ticket && event.ticket.basic || '-'}</span>
         </Card.Header>
-        <Card.Meta>{event && event.host || 'Host Not Found'}</Card.Meta>
+        <Card.Meta>{event && _.get(event, 'hosts.leader.name', 'Host Not Found') }</Card.Meta>
       </Card.Content>
     </Card>
   </div>

@@ -10,9 +10,9 @@ export const Events = ({events = []}) => {
         {_.map(events, (event) => {
           console.log(event)
           return (
-            <Grid.Column>
+            <Grid.Column key={event.id}>
               <div style={{margin: '10px 0'}}>
-                <EventCard event={event} />
+                <EventCard key={event.id} event={event} />
               </div>
             </Grid.Column>
           )
