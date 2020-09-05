@@ -1,4 +1,8 @@
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/database';
+import 'firebase/storage';
 
 
 var firebaseConfig = {
@@ -17,6 +21,7 @@ console.log('Config ', firebaseConfig);
 if (!firebase.apps.length) {
   console.log('Initializing firebase');
   firebase.initializeApp(firebaseConfig);
+
 }
 
 export default firebase;

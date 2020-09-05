@@ -1,15 +1,34 @@
 import _ from 'lodash';
 
-export const HEALTH = 'Health';
-export const TRAVEL = 'TravelAdventure';
-export const EXPLORE = 'ExploreActivities';
-export const ENTERTAINMENT = 'ENTERTAINMENT';
-export const WORK = 'WORK';
-export const OOTB = 'OOTB';
+export const HEALTH = 'health';
+export const TRAVEL = 'travelAdventure';
+export const EXPLORE = 'exploreActivities';
+export const ENTERTAINMENT = 'entertainment';
+export const EDUCATION = 'education';
+export const OOTB = 'ootb';
+
+export const FOOD = 'food';
+export const PERSONALITY = 'personality';
+export const PHYSICAL = 'physical';
+export const MENTAL = 'mental';
 
 export const categoriesMappings = {
   [HEALTH] : {
     label: 'Health & Wellness',
+    subCategories: {
+      [FOOD] : {
+        label: 'Food'
+      },
+      [PERSONALITY] : {
+        label: 'Personality Building'
+      },
+      [PHYSICAL] : {
+        label: 'Physical Wellness'
+      },
+      [MENTAL] : {
+        label: 'Mental Health'
+      }
+    }
   },
   [TRAVEL]: {
     label: 'Travel & Adventure',
@@ -20,8 +39,8 @@ export const categoriesMappings = {
   [ENTERTAINMENT]: {
     label: 'Entertainment & Buzz',
   },
-  [WORK]: {
-    label: 'Work & Social Networking',
+  [EDUCATION]: {
+    label: 'Education & Learning',
   },
   [OOTB]: {
     label: 'Out of the Box',
