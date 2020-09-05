@@ -8,5 +8,5 @@ export const Banner = () => (
 
 const BannerImage = styled(Image)`
   margin: 10px auto;
-  width: 100%
-`
+  width: 100%;
+`;

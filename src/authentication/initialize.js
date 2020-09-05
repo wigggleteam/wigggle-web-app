@@ -1,4 +1,4 @@
-import firebaseApp from '../firebase/initialize';
+import firebaseApp from '../firebase/config';
 import { useDispatch } from 'react-redux'
 import { setUserAction, unsetUserAction } from '../model/auth/actions';
 

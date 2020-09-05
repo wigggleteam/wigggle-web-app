@@ -1,19 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, Icon, Image } from 'semantic-ui-react'
+import { Card, Icon, Image } from 'semantic-ui-react';
+import moment from 'moment';
+import faker from 'faker';
 
-export const EventCard = ({event}) => {
+const toDisplayDate = (dateObj) => {
+  const date = moment(dateObj).format("dddd, MMM Do");
+  const time = moment(dateObj).format('LT');
+  return `${date} | ${time}`;
+};
+
+export const EventCard = ({event, ...props}) => {
+
+  const dates = event.eventDates || [];
+  const displayDate = toDisplayDate(dates[0]) || 'No Date';
+
   return(
-  <Card>
-    <Image src={event && event.image} wrapped height='400px' />
-    <Card.Content>
-      <Card.Description>
-        <Date>23 Aug | 7 pm</Date>
-      </Card.Description>
-      <Card.Header>{event && event.title} <span style={{float: 'right'}}>Rs 150</span></Card.Header>
-      <Card.Meta>{event && event.host}</Card.Meta>
-    </Card.Content>
-  </Card>)
+  <div style={{cursor: 'pointer'}}>
+    <Card {...props}>
+      <Image src={event && event.image || faker.image.fashion()  } wrapped height='400px' />
+      <Card.Content>
+        <Card.Description>
+          <Date>{displayDate}</Date>
+        </Card.Description>
+        <Card.Header>{event && event.title} 
+          <span style={{float: 'right'}}>Rs {event.ticket && event.ticket.basic || '-'}</span>
+        </Card.Header>
+        <Card.Meta>{event && event.host || 'Host Not Found'}</Card.Meta>
+      </Card.Content>
+    </Card>
+  </div>
+  )
 }
 
 export default EventCard
