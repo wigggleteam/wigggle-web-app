@@ -1,11 +1,8 @@
-import _ from 'lodash';
 import { HYDRATE } from 'next-redux-wrapper';
-import { SET_ERROR, SET_USER, UNSET_USER } from './actions';
+import { SET_EVENTS } from './actions';
 
 const initialState = {
-  isLoggedIn: false,
-  user: null,
-  error: '',
+  searchText: '' 
 }
 
 function _reducer(state = initialState, action){
@@ -13,15 +10,9 @@ function _reducer(state = initialState, action){
     case HYDRATE: {
       return { ...state }
     }
-    case SET_ERROR: {
-      return { ...state, error: action.payload}
-    }
-    case SET_USER: {
-      const data = _.cloneDeep(action.payload);
-      return {...state, ...data}
-    }
-    case UNSET_USER: {
-      return {...initialState}
+    case SET_EVENTS: {
+      const events = _.cloneDeep(action.payload);
+      return { ...state, events }
     }
     default:
       return state;
@@ -35,7 +26,7 @@ if (!isNode) {
   const storage = require('redux-persist/lib/storage').default;
 
   const persistConfig = { 
-    key: 'auth',
+    key: 'events',
     storage,
     blacklist: [],
   };

@@ -14,8 +14,11 @@ import AuthUserModal from './Authentication';
 import { Footer } from './Footer';
 import { categories } from '../constants/categories';
 import Link from 'next/link';
+import { connect } from 'react-redux';
+import { logoutUserAction } from '../model/auth/actions';
 
-const ProfileBox = () => {
+const ProfileBox = ({ auth }) => {
+
   return (
     <Grid style={{padding: '10px'}}>
       <Grid.Row>
@@ -23,7 +26,7 @@ const ProfileBox = () => {
           <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='medium' circular />
         </Grid.Column>
         <Grid.Column width={10}>
-          <Welcome>Hi, Guest</Welcome>
+          <Welcome>Hi, {auth.isLoggedIn ? _.get(auth, 'user.displayName') || 'Name not found' : 'Guest' }  </Welcome>
           <Join>Lets know each other better</Join>
         </Grid.Column>
       </Grid.Row>
@@ -31,7 +34,7 @@ const ProfileBox = () => {
   )
 }
 
-const SideMenu = ({ children, visible, setVisible }) => {
+const SideMenu = ({ children, visible, setVisible, auth }) => {
 
   return (
     <Sidebar.Pushable as={Segment}>
@@ -45,7 +48,7 @@ const SideMenu = ({ children, visible, setVisible }) => {
         width='wide'
       >
         <Menu.Item as='a' style={{ padding: '20px 0' }}>
-          <ProfileBox />
+          <ProfileBox auth={auth} />
         </Menu.Item>
 
         {_.map(categories, (category) => {
@@ -67,7 +70,17 @@ const SideMenu = ({ children, visible, setVisible }) => {
 }
 
 
-const BasicLayout = ({ children, setVisible, setLoginVisible }) => (
+const BasicLayout = ({ children, setVisible, setLoginVisible, auth, logoutUser }) => {
+
+  const handleAuth = () => {
+    if(auth.isLoggedIn){
+      logoutUser()
+    }else{
+      setLoginVisible(true);
+    }
+  }
+
+  return(
   <Body>
     <Menu size='huge'>
       <Menu.Menu position='left'>
@@ -87,8 +100,8 @@ const BasicLayout = ({ children, setVisible, setLoginVisible }) => (
         <MenuBox width='10vw'>
           <MenuText fontSize='12px'> <Icon name='circle' size='small' style={{ color: '#fe4356' }} /> Bangalore</MenuText>
         </MenuBox>
-        <MenuBox width='10vw' onClick={(e) => { setLoginVisible(true) }}>
-          <MenuText> Login </MenuText>
+        <MenuBox width='10vw' onClick={handleAuth}>
+          <MenuText> {auth.isLoggedIn ? 'Logout' : 'Login' } </MenuText>
         </MenuBox>
       </Menu.Menu>
       <MenuBox width='15vw' style={{ backgroundColor: '#fe4356', textAlign: 'center' }}>
@@ -97,23 +110,41 @@ const BasicLayout = ({ children, setVisible, setLoginVisible }) => (
     </Menu>
     {children}
     <Footer />
-  </Body>
-)
+  </Body>)
+}
 
-export default ({ children }) => {
+const Layout = ({ children, auth, logoutUser }) => {
 
   const [visible, setVisible] = React.useState(false);
   const [loginVisible, setLoginVisible] = React.useState(false);
 
   return (
-    <SideMenu visible={visible} setVisible={setVisible}>
-      <BasicLayout setVisible={setVisible} setLoginVisible={setLoginVisible}>
+    <SideMenu visible={visible} setVisible={setVisible} auth={auth}>
+      <BasicLayout 
+        setVisible={setVisible} 
+        setLoginVisible={setLoginVisible} 
+        auth={auth} 
+        logoutUser={logoutUser}>
         {children}
         {loginVisible ? <AuthUserModal setLoginVisible={setLoginVisible} /> : ''}
       </BasicLayout>
     </SideMenu>
   )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => dispatch(logoutUserAction())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
 
 
 /* Styled Components */

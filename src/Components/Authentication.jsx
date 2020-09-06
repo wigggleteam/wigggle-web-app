@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loginRequest, setUserAction, unsetUserAction } from '../model/auth/actions';
-import { Button, Divider, Form, Grid, Icon, Input } from 'semantic-ui-react'
+import { loginRequest, setUserAction, unsetUserAction, setErrorAction } from '../model/auth/actions';
+import { Button, Divider, Form, Grid, Icon, Input, Message } from 'semantic-ui-react'
 import styled from 'styled-components';
 import { isValidEmail, isValidMobile } from '../utils/validations';
-import auth from '../authentication/initialize';
 
 class AuthUserModal extends React.Component {
 
@@ -15,56 +14,35 @@ class AuthUserModal extends React.Component {
       credential: '',
       fieldType: undefined,
       fieldValue: '',
+      error: undefined
     }
   }
 
   componentDidMount() {
-    console.log('Authentication Mounted...')
-    const { setUser, unSetUser} = this.props;
-    auth.onAuthStateChanged(firebaseUser => {
-      if(firebaseUser == null) {
-        unSetUser();
-        return;
-      }
-    
-      const {
-        email,
-        emailVerified,
-        uid,
-        phoneNumber,
-        photoURL,
-        displayName,
-      } = firebaseUser;
-      
-      setUser({
-        email,
-        emailVerified,
-        uid,
-        phoneNumber,
-        photoURL,
-        displayName,
-      })
-      
-    })
+    console.log('User Login modal is open')
   }
 
   validate = () => {
-    this.setState({loading: true});
+    const { setError } = this.props;
+    this.setState({ loading: true });
     const validEmail = isValidEmail(this.state.credential);
     const validMobile = isValidMobile(this.state.credential);
-    if(validEmail || validMobile){
-      if(validEmail){
-        this.setState({fieldType: 'password'})
+    if (validEmail || validMobile) {
+      if (validEmail) {
+        this.setState({ fieldType: 'password' })
       }
-      if(validMobile){
-        this.setState({fieldType: 'otp'})
+      if (validMobile) {
+        this.setState({ fieldType: 'otp' })
       }
+    } else {
+      setError('Error: Invalid Email or Mobile Number.');
+      setTimeout(() => setError(''), 1900);
     }
-    setTimeout(()=>this.setState({loading: false}), 900);
+    setTimeout(() => this.setState({ loading: false }), 900);
   }
 
   login = () => {
-    const {credential, fieldValue } = this.state;
+    const { credential, fieldValue } = this.state;
     const payload = {
       email: credential,
       password: fieldValue
@@ -73,58 +51,64 @@ class AuthUserModal extends React.Component {
   }
 
   render() {
-    const { setLoginVisible } = this.props;
-    const { fieldType, credential, fieldValue } = this.state;
+    const { setLoginVisible, auth } = this.props;
+    const { fieldType, credential, fieldValue, error } = this.state;
     let display = 'none';
-    if(fieldType){
+    if (fieldType) {
       display = undefined;
     }
     return (
       <AuthWindow>
-          <Icon name='close' style={{ float: 'right', cursor: 'pointer' }} onClick={e => setLoginVisible(false)} />
-          <Title>Welcome to Wigggle</Title>
-          <div style={{width: '60%',  margin: '0 auto'}}>
-            <p>Join using</p>
-          </div>
-          <br />
-          <Grid centered columns={2}>
-            <Grid.Column>
-              <SocialMedia color='#47599A' float='right'>
-                <Icon name='facebook square' /> FACEBOOK
+        <Icon name='close' style={{ float: 'right', cursor: 'pointer' }} onClick={e => setLoginVisible(false)} />
+        <Title>Welcome to Wigggle</Title>
+        <div style={{ width: '60%', margin: '0 auto' }}>
+          <p>Join using</p>
+        </div>
+        <br />
+        <Grid centered columns={2}>
+          <Grid.Column>
+            <SocialMedia color='#47599A' float='right'>
+              <Icon name='facebook square' /> FACEBOOK
               </SocialMedia>
-            </Grid.Column>
-            <Grid.Column>
-              <SocialMedia color='#DE4B33' float='left'> 
-                <Icon name='google' /> GOOGLE
+          </Grid.Column>
+          <Grid.Column>
+            <SocialMedia color='#DE4B33' float='left'>
+              <Icon name='google' /> GOOGLE
               </SocialMedia>
-            </Grid.Column>
-          </Grid>
-          <div style={{ clear: 'both', width: '50%', margin: '0 auto' }}>
-            <Divider horizontal>Or</Divider>
-          </div>
-          <div style={{width: '60%',  margin: '0 auto'}}>
-            <Form onSubmit={() => {fieldType ? this.login() : this.validate()}}>
+          </Grid.Column>
+        </Grid>
+        <div style={{ clear: 'both', width: '50%', margin: '0 auto' }}>
+          <Divider horizontal>Or</Divider>
+        </div>
+        <div style={{ width: '60%', margin: '0 auto' }}>
+          <Form onSubmit={() => { fieldType ? this.login() : this.validate() }}>
             <p>Enter your Number / Email</p>
-            <Form.Input  
-              placeholder='Email/Number' 
+            { auth.error && 
+              <Message negative style={{ padding: 10, width: '90%'}}>
+                <p>{auth.error}</p>
+              </Message>
+            }
+            <Form.Input
+              error={Boolean(error)}
+              placeholder='Email/Number'
               disabled={fieldType ? true : false}
               value={credential}
-              onChange={(e)=>this.setState({credential: e.target.value})}
-              style={{width: '90%'}} />
+              onChange={(e) => this.setState({ credential: e.target.value })}
+              style={{ width: '90%' }} />
             <Form.Input
               type='password'
-              placeholder={ fieldType === 'password' ? 'Enter Password' : 'Enter OTP' } 
+              placeholder={fieldType === 'password' ? 'Enter Password' : 'Enter OTP'}
               value={fieldValue}
-              onChange={(e)=>this.setState({fieldValue: e.target.value})}
-              style={{width: '90%', marginTop: '10px', display }} />
-              <Button loading={this.state.loading} style={{backgroundColor: '#F24C59', width: '150px', color: '#fff', marginTop: '15px' }} >
+              onChange={(e) => this.setState({ fieldValue: e.target.value })}
+              style={{ width: '90%', marginTop: '10px', display }} />
+            <Button loading={this.state.loading} style={{ backgroundColor: '#F24C59', width: '150px', color: '#fff', marginTop: '15px' }} >
               {fieldType ? 'Sign in' : 'Continue'}
             </Button>
-            </Form>
-            
-            <p style={{fontSize: '12px', marginTop: '10px'}}>By signing In, I agree to Terms and Condition</p>
-          </div>
-        </AuthWindow>
+          </Form>
+
+          <p style={{ fontSize: '12px', marginTop: '10px' }}>By signing In, I agree to Terms and Condition</p>
+        </div>
+      </AuthWindow>
     )
   }
 }
@@ -138,12 +122,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loginRequest: (method, credentials) => dispatch(loginRequest(method, credentials)),
-    setUser : (user) => dispatch(setUserAction(user)),
-    unSetUser: () => dispatch(unsetUserAction())
+    verifyLogin: () => dispatch({type: 'VERIFY_LOGIN'}),
+    setError: (error) =>  dispatch(setErrorAction(error))
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(AuthUserModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthUserModal);
 
 const AuthWindow = styled.div`
   position: absolute;
