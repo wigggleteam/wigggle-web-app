@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 import {
@@ -117,6 +117,12 @@ const Layout = ({ children, auth, logoutUser }) => {
 
   const [visible, setVisible] = React.useState(false);
   const [loginVisible, setLoginVisible] = React.useState(false);
+
+  useEffect(() => {
+    if(auth.isLoggedIn){
+      setLoginVisible(false);
+    }
+  },[auth.isLoggedIn])
 
   return (
     <SideMenu visible={visible} setVisible={setVisible} auth={auth}>
