@@ -18,7 +18,7 @@ export const makeStore = (context) => {
   const store = createStore(rootReducer, bindMiddleware([sagaMiddleware]));
 
   store.sagaTask = sagaMiddleware.run(rootSaga);
-
+  store.dispatch({ type: 'VERIFY_LOGIN' })
   return store;
 }
 
