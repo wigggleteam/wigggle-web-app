@@ -24,8 +24,8 @@ export const EventCard = ({event = {}, ...props}) => {
         <Card.Description>
           <DateDisplay>{displayDate}</DateDisplay>
         </Card.Description>
-        <Card.Header>{ _.get(event, 'event.ticket.basic', 'No Title')} 
-          <span style={{float: 'right'}}>Rs { _.get(event, 'event.ticket.basic', '-')}</span>
+        <Card.Header>{ _.get(event, 'ticket.basic', 'No Title')} 
+          <span style={{float: 'right'}}>Rs { _.get(event, 'ticket.basic', '-')}</span>
         </Card.Header>
         <Card.Meta>{ _.get(event, 'hosts.leader.name', 'Host Not Found') }</Card.Meta>
       </Card.Content>
