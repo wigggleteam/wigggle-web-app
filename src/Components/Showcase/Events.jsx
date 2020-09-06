@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Grid } from 'semantic-ui-react';
 import { EventCard } from '../Common/EventCard';
+import Link from 'next/link';
 
 export const Events = ({events = []}) => {
   return (
@@ -10,9 +11,11 @@ export const Events = ({events = []}) => {
         {_.map(events, (event) => {
           console.log(event)
           return (
-            <Grid.Column>
+            <Grid.Column key={event.id}>
               <div style={{margin: '10px 0'}}>
-                <EventCard event={event} />
+                <Link href='/event'>
+                  <EventCard key={event.id} event={event} />
+                </Link>
               </div>
             </Grid.Column>
           )

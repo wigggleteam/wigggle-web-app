@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import styled from 'styled-components';
 import { Container, Checkbox, Rating } from 'semantic-ui-react';
 import { categories } from '../../constants/categories';
 
@@ -10,18 +11,18 @@ export const Filter = () => {
   <Container>
     <h4>Categories</h4>
      { _.map(categories, (category) => {
-        return <p><Checkbox label={{ children: category.label }} /></p>
+        return <Box><Checkbox label={{ children: category.label }} /></Box>
      })}
     <h4>Day</h4>
-      <p><Checkbox label={{ children: 'Today' }} /></p>
-      <p><Checkbox label={{ children: 'This week' }} /></p>
-      <p><Checkbox label={{ children: 'This weekend' }} /></p>
-      <p><Checkbox label={{ children: 'This month' }} /></p>
+      <Box><Checkbox label={{ children: 'Today' }} /></Box>
+      <Box><Checkbox label={{ children: 'This week' }} /></Box>
+      <Box><Checkbox label={{ children: 'This weekend' }} /></Box>
+      <Box><Checkbox label={{ children: 'This month' }} /></Box>
     <h4>Location</h4>
-      <p><Checkbox label={{ children: 'HSR' }} /></p>
-      <p><Checkbox label={{ children: 'Koramangla' }} /></p>
-      <p><Checkbox label={{ children: 'WhiteField' }} /></p>
-      <p><Checkbox label={{ children: 'Online' }} /></p>
+      <Box><Checkbox label={{ children: 'HSR' }} /></Box>
+      <Box><Checkbox label={{ children: 'Koramangla' }} /></Box>
+      <Box><Checkbox label={{ children: 'WhiteField' }} /></Box>
+      <Box><Checkbox label={{ children: 'Online' }} /></Box>
     <h4>Price</h4>
       <input
         type='range'
@@ -32,5 +33,8 @@ export const Filter = () => {
       />
   </Container>
   )
-
 }
+
+const Box = styled.div`
+  margin: 5px 0px;
+`;
