@@ -15,16 +15,16 @@ export const SimilarEvents = () => {
       <Grid>
         <Grid.Row columns={4}>
           <Grid.Column>
-            <EventCard event={{ image: faker.image.fashion(), host, title }} />
+            <EventCard />
           </Grid.Column>
           <Grid.Column>
-            <EventCard event={{ image: faker.image.fashion(), host, title }} />
+            <EventCard />
           </Grid.Column>
           <Grid.Column>
-            <EventCard event={{ image: faker.image.fashion(), host, title }} />
+            <EventCard/>
           </Grid.Column>
           <Grid.Column>
-            <EventCard event={{ image: faker.image.fashion(), host, title }} />
+            <EventCard/>
           </Grid.Column>
         </Grid.Row>
       </Grid>
