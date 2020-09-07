@@ -8,7 +8,8 @@ import {
   MenuItem,
   Segment,
   Sidebar,
-  Grid
+  Grid,
+  Input
 } from 'semantic-ui-react';
 import AuthUserModal from './Authentication';
 import { Footer } from './Footer';
@@ -87,11 +88,13 @@ const BasicLayout = ({ children, setVisible, setLoginVisible, auth, logoutUser }
         <MenuBox width='10vw' onClick={(e) => setVisible(true)}>
           <MenuText><Icon name='bars' size='large' /> Menu </MenuText>
         </MenuBox>
-        <MenuBox width='5vw'>
-          <MenuText><Icon name='search' /></MenuText>
+        <MenuBox width='25vw'>
+          <MenuText>
+            <Input style={{margin:0, width: '40%', float: 'left'}} loading={false} icon='search' placeholder='Search...' />
+          </MenuText>
         </MenuBox>
       </Menu.Menu>
-      <CenterBox width='50vw'>
+      <CenterBox width='30vw'>
         <Link href='/'>
           <Logo style={{ width: '100%', textAlign: 'center', fontFamily: `'Quicksand', sans-serif !important`, cursor: 'pointer' }}>Wigggle</Logo>
         </Link>
