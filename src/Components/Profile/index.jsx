@@ -6,6 +6,7 @@ import { Grid, Divider } from 'semantic-ui-react';
 import { getEventsFromFireStore } from '../../firebase/firestoreServices';
 import { fetchDataFromEventSnapshot } from '../../firebase/utils';
 import { setEvents } from '../../model/showcase/actions';
+import withAuthentication from '../../HOC/isAuthenticated';
 
 import PersonalDetails from './PersonalDetails';
 
@@ -39,7 +40,7 @@ const sections = {
   }
 }
 
-class ShowCase extends Component {
+class Profile extends Component {
 
   constructor(props) {
     super(props);
@@ -80,19 +81,9 @@ class ShowCase extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    showcase: state.showcase,
-  }
-}
+const AuthenticatedProfile = withAuthentication(Profile);
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setEvents: (events) => dispatch(setEvents(events)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowCase);
+export default AuthenticatedProfile;
 
 const Container = styled.div`
   width: 90vw;

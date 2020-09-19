@@ -20,18 +20,25 @@ import { logoutUserAction } from '../model/auth/actions';
 
 const ProfileBox = ({ auth }) => {
 
+  let href= '/signup';
+  if(auth.isLoggedIn){
+    href= '/profile';
+  }
+
   return (
-    <Grid style={{padding: '10px'}}>
-      <Grid.Row>
-        <Grid.Column width={6}>
-          <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='medium' circular />
-        </Grid.Column>
-        <Grid.Column width={10}>
-          <Welcome>Hi, {auth.isLoggedIn ? _.get(auth, 'user.displayName') || 'Name not found' : 'Guest' }  </Welcome>
-          <Join>Lets know each other better</Join>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <Link href={href}>
+      <Grid style={{padding: '10px'}}>
+        <Grid.Row>
+          <Grid.Column width={6}>
+            <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='medium' circular />
+          </Grid.Column>
+          <Grid.Column width={10}>
+            <Welcome>Hi, {auth.isLoggedIn ? _.get(auth, 'user.displayName') || 'Name not found' : 'Guest' }  </Welcome>
+            <Join>Lets know each other better</Join>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Link>
   )
 }
 
@@ -219,4 +226,8 @@ const Join = styled.h5`
   font-weight: 500;
   margin: 5px;
   color: #888;
+`;
+
+const GoTo = styled.h5`
+  text-align: left;
 `
