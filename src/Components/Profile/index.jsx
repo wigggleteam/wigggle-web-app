@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import dynamic from 'next/dynamic'
 import _ from 'lodash';
 import styled from 'styled-components';
 import { Grid, Divider } from 'semantic-ui-react';
@@ -9,6 +10,9 @@ import { setEvents } from '../../model/showcase/actions';
 import withAuthentication from '../../HOC/isAuthenticated';
 
 import PersonalDetails from './PersonalDetails';
+import PersonalPreferences from './PersonalPreferences';
+import UpcomingEvents from './UpcomingEvents';
+import WishList from './WishList';
 
 const PERSONAL_DETAILS = 'pd';
 const PERSONAL_PREFERENCES = 'pp';
@@ -25,14 +29,17 @@ const sections = {
   [PERSONAL_PREFERENCES]: {
     key: PERSONAL_PREFERENCES,
     label: 'Personal Preferences',
+    component: (props) => <PersonalPreferences {...props} />,
   },
   [UPCOMING_EVENTS]: {
     key: UPCOMING_EVENTS,
     label: 'Upcoming Events',
+    component: (props) => <UpcomingEvents {...props} />,
   },
   [WISHLIST]: {
     key: WISHLIST,
     label: 'Wishlist',
+    component: (props) => <WishList {...props} />,
   },
   [BECOME_A_HOST]: {
     key: BECOME_A_HOST,
