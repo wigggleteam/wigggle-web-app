@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import dynamic from 'next/dynamic'
 import _ from 'lodash';
 import styled from 'styled-components';
 import { Grid, Divider } from 'semantic-ui-react';
 import { getEventsFromFireStore } from '../../firebase/firestoreServices';
 import { fetchDataFromEventSnapshot } from '../../firebase/utils';
 import { setEvents } from '../../model/showcase/actions';
+import withAuthentication from '../../HOC/isAuthenticated';
 
 import PersonalDetails from './PersonalDetails';
+import PersonalPreferences from './PersonalPreferences';
+import UpcomingEvents from './UpcomingEvents';
+import WishList from './WishList';
 
 const PERSONAL_DETAILS = 'pd';
 const PERSONAL_PREFERENCES = 'pp';
@@ -24,14 +29,17 @@ const sections = {
   [PERSONAL_PREFERENCES]: {
     key: PERSONAL_PREFERENCES,
     label: 'Personal Preferences',
+    component: (props) => <PersonalPreferences {...props} />,
   },
   [UPCOMING_EVENTS]: {
     key: UPCOMING_EVENTS,
     label: 'Upcoming Events',
+    component: (props) => <UpcomingEvents {...props} />,
   },
   [WISHLIST]: {
     key: WISHLIST,
     label: 'Wishlist',
+    component: (props) => <WishList {...props} />,
   },
   [BECOME_A_HOST]: {
     key: BECOME_A_HOST,
@@ -39,7 +47,7 @@ const sections = {
   }
 }
 
-class ShowCase extends Component {
+class Profile extends Component {
 
   constructor(props) {
     super(props);
@@ -80,19 +88,9 @@ class ShowCase extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    showcase: state.showcase,
-  }
-}
+const AuthenticatedProfile = withAuthentication(Profile);
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setEvents: (events) => dispatch(setEvents(events)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowCase);
+export default AuthenticatedProfile;
 
 const Container = styled.div`
   width: 90vw;
