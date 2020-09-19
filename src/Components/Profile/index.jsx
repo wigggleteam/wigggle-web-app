@@ -1,38 +1,79 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import styled from 'styled-components';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Divider } from 'semantic-ui-react';
 import { getEventsFromFireStore } from '../../firebase/firestoreServices';
 import { fetchDataFromEventSnapshot } from '../../firebase/utils';
 import { setEvents } from '../../model/showcase/actions';
 
-class ShowCase extends Component{
+import PersonalDetails from './PersonalDetails';
+
+const PERSONAL_DETAILS = 'pd';
+const PERSONAL_PREFERENCES = 'pp';
+const UPCOMING_EVENTS = 'ue';
+const WISHLIST = 'w';
+const BECOME_A_HOST = 'bah';
+
+const sections = {
+  [PERSONAL_DETAILS] : {
+    key: PERSONAL_DETAILS,
+    label: 'Personal Details',
+    component: (props) => <PersonalDetails {...props} />,
+  },
+  [PERSONAL_PREFERENCES]: {
+    key: PERSONAL_PREFERENCES,
+    label: 'Personal Preferences',
+  },
+  [UPCOMING_EVENTS]: {
+    key: UPCOMING_EVENTS,
+    label: 'Upcoming Events',
+  },
+  [WISHLIST]: {
+    key: WISHLIST,
+    label: 'Wishlist',
+  },
+  [BECOME_A_HOST]: {
+    key: BECOME_A_HOST,
+    label: 'Become a Host',
+  }
+}
+
+class ShowCase extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      activeKey: PERSONAL_DETAILS,
+    }
   }
 
-  unsubscribe = undefined;
-
-  componentDidMount(){
-    this.unsubscribe = getEventsFromFireStore({
-      next: (snapshot) => this.props.setEvents(snapshot.docs.map(fetchDataFromEventSnapshot)), 
-      error: console.log
-    })
-  }
-
-  componentWillUnmount(){
-    this.unsubscribe();
+  handleSectionChange = (key) =>{
+    this.setState({activeKey: key})
   }
 
   render(){
-    const { showcase } = this.props;
+    const { activeKey = PERSONAL_DETAILS } = this.state;
 
     return(
       <Container>
-        <h5>Profile</h5>
-        <h3>Health and Wellness - <span>12 Events</span></h3>
+        <h2>Profile</h2>
+        <Divider />
+        <Grid celled='internally'>
+          <Grid.Row>
+            <Grid.Column width={3}>
+              { 
+                _.map(_.values(sections), (section) => {
+                  const isActive = section.key === activeKey; 
+                  return <Section key={section.key} active={isActive} onClick={()=> this.handleSectionChange(section.key)}> {section.label} </Section>;
+                })
+              }
+            </Grid.Column>
+            <Grid.Column width={13}>
+              { sections[activeKey].component && sections[activeKey].component() || <div>Error</div>  }
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         
       </Container>
     )
@@ -64,5 +105,10 @@ const Subheading = styled.span`
   font-weight: 800;
   margin: 0 10px;
   padding: 5px;
+  cursor: pointer;
+`;
+
+const Section = styled.h3`
+  color: ${props => props.active ? '#F24B54': '#000' };
   cursor: pointer;
 `;
