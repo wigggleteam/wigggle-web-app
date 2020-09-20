@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const MyGroup = () => {
   return (
     <Groups>
-      <Heading>Jai has Veeru, Ram has Shyam.. You have?</Heading>
+      <Heading>Jai has Veeru, yash has sakshi... You have?</Heading>
       <Subheading>We help you finding your troop, your squad with whom you can wigggle around having loads of fun!</Subheading>
       <Button>Find My Group</Button>
     </Groups>
