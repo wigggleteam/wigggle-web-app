@@ -26,8 +26,6 @@ class Signup extends React.Component {
         })
       }, 3000);
     }
-    
-    
   }
 
   handleSignup = () => {

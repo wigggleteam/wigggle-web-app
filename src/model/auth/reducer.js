@@ -5,6 +5,7 @@ import { SET_ERROR, SET_USER, UNSET_USER } from './actions';
 const initialState = {
   isLoggedIn: false,
   user: null,
+  userInfo: null,
   error: '',
 }
 

@@ -21,7 +21,6 @@ console.log('Config ', firebaseConfig);
 if (!firebase.apps.length) {
   console.log('Initializing firebase');
   firebase.initializeApp(firebaseConfig);
-
 }
 
 export default firebase;

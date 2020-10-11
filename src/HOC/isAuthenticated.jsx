@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import isnode from 'detect-node';
-
 
 const RedirectToHome = () => {
   
@@ -20,10 +19,11 @@ const RedirectToHome = () => {
 
 const withAuthentication = (WrappedComponent) => (props) => {
   const auth = useSelector(state => state.auth);
-  let { isLoggedIn = false } = auth || {}; 
+  console.log("From the selector", auth)
+  let { isLoggedIn = false } = auth || {};
 
   if(isLoggedIn){
-    return <WrappedComponent {...props} />
+    return <WrappedComponent {...props} auth={auth} />
   }
   return <RedirectToHome />
 }

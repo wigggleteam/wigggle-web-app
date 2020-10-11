@@ -10,9 +10,9 @@ export const loginRequest = (method, credentials) => ({
   payload: {method, credentials},
 });
 
-export const setUserAction = (user) => ({
+export const setUserAction = (user, userInfo) => ({
   type: SET_USER,
-  payload: { isLoggedIn:true, user},
+  payload: { isLoggedIn:true, user, userInfo},
 });
 
 export const unsetUserAction = () => ({

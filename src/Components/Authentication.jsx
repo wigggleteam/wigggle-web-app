@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loginRequest, setUserAction, unsetUserAction, setErrorAction } from '../model/auth/actions';
-import { Button, Divider, Form, Grid, Icon, Input, Message } from 'semantic-ui-react'
+import { loginRequest, setErrorAction } from '../model/auth/actions';
+import { Button, Divider, Form, Grid, Icon, Message } from 'semantic-ui-react'
 import styled from 'styled-components';
 import { isValidEmail, isValidMobile } from '../utils/validations';
-
+import { socialLogin } from '../firebase/authentication';
 class AuthUserModal extends React.Component {
 
   constructor(props) {
@@ -50,6 +50,12 @@ class AuthUserModal extends React.Component {
     this.props.loginRequest('email', payload);
   }
 
+  socialLogin = (provider) => {
+    const { setLoginVisible } = this.props;
+    setLoginVisible(false);
+    return socialLogin(provider);
+  }
+
   render() {
     const { setLoginVisible, auth } = this.props;
     const { fieldType, credential, fieldValue, error } = this.state;
@@ -59,7 +65,7 @@ class AuthUserModal extends React.Component {
     }
     return (
       <AuthWindow>
-        <Icon name='close' style={{ float: 'right', cursor: 'pointer' }} onClick={e => setLoginVisible(false)} />
+        <Icon name='close' style={{ float: 'right', cursor: 'pointer' }} onClick={() => setLoginVisible(false)} />
         <Title>Welcome to Wigggle</Title>
         <div style={{ width: '60%', margin: '0 auto' }}>
           <p>Join using</p>
@@ -67,12 +73,12 @@ class AuthUserModal extends React.Component {
         <br />
         <Grid centered columns={2}>
           <Grid.Column>
-            <SocialMedia color='#47599A' float='right'>
+            <SocialMedia color='#47599A' float='right' onClick={() => this.socialLogin("facebook")} >
               <Icon name='facebook square' /> FACEBOOK
-              </SocialMedia>
+            </SocialMedia>
           </Grid.Column>
           <Grid.Column>
-            <SocialMedia color='#DE4B33' float='left'>
+            <SocialMedia color='#DE4B33' float='left' onClick={() => this.socialLogin("google")}>
               <Icon name='google' /> GOOGLE
               </SocialMedia>
           </Grid.Column>

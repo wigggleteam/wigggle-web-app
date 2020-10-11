@@ -32,7 +32,7 @@ class ShowCase extends Component{
     const { showcase } = this.props;
 
     return(
-      <Container>
+      <Container key="showcase-container">
         <h5>Home/ Events/ Yoga Events</h5>
         <h3>Health and Wellness - <span>12 Events</span></h3>
         <Grid>

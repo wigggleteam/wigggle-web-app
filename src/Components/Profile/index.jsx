@@ -62,6 +62,10 @@ class Profile extends Component {
 
   render(){
     const { activeKey = PERSONAL_DETAILS } = this.state;
+    const { auth, user } = this.props;
+    if(!user || !auth){
+      console.error("Authentication | Secured route without user info");
+    }
 
     return(
       <Container>
@@ -78,7 +82,7 @@ class Profile extends Component {
               }
             </Grid.Column>
             <Grid.Column width={13}>
-              { sections[activeKey].component && sections[activeKey].component() || <div>Error</div>  }
+              { sections[activeKey].component && sections[activeKey].component({auth, user}) || <div>Error</div>  }
             </Grid.Column>
           </Grid.Row>
         </Grid>

@@ -91,7 +91,7 @@ const BasicLayout = ({ children, setVisible, setLoginVisible, auth, logoutUser }
   return(
   <Body>
     <Menu size='huge'>
-      <Menu.Menu position='left'>
+      <Menu.Menu position='left' key="menu-left">
         <MenuBox width='10vw' onClick={(e) => setVisible(true)}>
           <MenuText><Icon name='bars' size='large' /> Menu </MenuText>
         </MenuBox>
@@ -100,13 +100,13 @@ const BasicLayout = ({ children, setVisible, setLoginVisible, auth, logoutUser }
             <Input style={{margin:0, width: '40%', float: 'left'}} loading={false} icon='search' placeholder='Search...' />
           </MenuText>
         </MenuBox>
-      </Menu.Menu>
+      </Menu.Menu >
       <CenterBox width='30vw'>
         <Link href='/'>
           <Logo style={{ width: '100%', textAlign: 'center', fontFamily: `'Quicksand', sans-serif !important`, cursor: 'pointer' }}>Wigggle</Logo>
         </Link>
       </CenterBox>
-      <Menu.Menu position='right'>
+      <Menu.Menu position='right' key="right-menu">
         <MenuBox width='10vw'>
           <MenuText fontSize='12px'> <Icon name='circle' size='small' style={{ color: '#fe4356' }} /> Bangalore</MenuText>
         </MenuBox>
