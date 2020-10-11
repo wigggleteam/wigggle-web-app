@@ -4,9 +4,6 @@ import dynamic from 'next/dynamic'
 import _ from 'lodash';
 import styled from 'styled-components';
 import { Grid, Divider } from 'semantic-ui-react';
-import { getEventsFromFireStore } from '../../firebase/firestoreServices';
-import { fetchDataFromEventSnapshot } from '../../firebase/utils';
-import { setEvents } from '../../model/showcase/actions';
 import withAuthentication from '../../HOC/isAuthenticated';
 
 import PersonalDetails from './PersonalDetails';
@@ -62,8 +59,8 @@ class Profile extends Component {
 
   render(){
     const { activeKey = PERSONAL_DETAILS } = this.state;
-    const { auth, user } = this.props;
-    if(!user || !auth){
+    const { auth } = this.props;
+    if(!auth.user || !auth.userInfo){
       console.error("Authentication | Secured route without user info");
     }
 
@@ -82,7 +79,7 @@ class Profile extends Component {
               }
             </Grid.Column>
             <Grid.Column width={13}>
-              { sections[activeKey].component && sections[activeKey].component({auth, user}) || <div>Error</div>  }
+              { sections[activeKey].component && sections[activeKey].component({auth }) || <div>Error</div>  }
             </Grid.Column>
           </Grid.Row>
         </Grid>

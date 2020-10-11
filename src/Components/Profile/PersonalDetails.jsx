@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Image, Form, Button } from 'semantic-ui-react';
+import { setUsersInfoToFireStore } from '../../firebase/firestoreServices';
 
 const options = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -13,7 +14,14 @@ const UserDetails = ({user}) => {
   const [lastName, setLastName] = useState(user.lastName);
   const [mobile, setMobile] = useState(user.mobile);
   const [gender, setGender] = useState(user.gender);
+  const [dob, setDob] = useState(user.dob);
+  const [address, setAddress] = useState(user.address);
 
+  const handleUserInfo = () => {
+    setUsersInfoToFireStore(user.uid, {
+      firstName, lastName, gender
+    })
+  }
 
   return (
     <Form>
@@ -22,13 +30,13 @@ const UserDetails = ({user}) => {
           <Grid.Column width={8}>
             <Form.Field>
               <label>First Name</label>
-              <input placeholder='First Name' value={firstName} />
+              <input placeholder='First Name' value={firstName} onChange={e => setFirstName(e.target.value)} />
             </Form.Field>
           </Grid.Column>
           <Grid.Column width={8}>
             <Form.Field>
               <label>Last Name</label>
-              <input placeholder='Last Name' value={lastName}/>
+              <input placeholder='Last Name' value={lastName} onChange={e => setLastName(e.target.value)}/>
             </Form.Field>
           </Grid.Column>
         </Grid.Row>
@@ -50,7 +58,7 @@ const UserDetails = ({user}) => {
           <Grid.Column width={8}>
             <Form.Field>
               <label>Gender</label>
-              <Form.Select options={options} placeholder='Gender' />
+              <Form.Select options={options} placeholder='Gender' value={gender} />
             </ Form.Field>
           </Grid.Column>
         </Grid.Row>
@@ -106,7 +114,7 @@ const UserDetails = ({user}) => {
         <Grid.Row>
           <Grid.Column width={8}>
             <Form.Field>
-              <Button size='medium' type='submit'>Update</Button>
+              <Button size='medium' type='submit' onClick={handleUserInfo}>Update</Button>
             </Form.Field>
           </Grid.Column>
         </Grid.Row>
@@ -115,9 +123,10 @@ const UserDetails = ({user}) => {
   )
 }
 
-const ProfileDetails = ({auth}) => {
+const ProfileDetails = ({auth, setUserInfo}) => {
   
   const userInfo = {};
+  userInfo.uid = _.get(auth, 'user.uid', -1);
   userInfo.firstName = _.get(auth, 'userInfo.firstName', "");
   userInfo.lastName = _.get(auth, 'userInfo.lastName', "");
   userInfo.email = _.get(auth, 'user.email', "");

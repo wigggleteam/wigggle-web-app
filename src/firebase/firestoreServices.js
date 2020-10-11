@@ -1,4 +1,6 @@
-import firebase from './config'
+import _ from 'lodash';
+import firebase from './config';
+
 
 
 const db = firebase.firestore();
@@ -12,6 +14,21 @@ export async function getUsersInfoFromFireStore(uid){
   if(document.exists){
     return document.data();
   }
+}
+
+export async function setUsersInfoToFireStore(uid, data){
+
+  const document = await db.collection('users').doc(uid).set({
+    firstName: data.firstName,
+    lastName: data.lastName,
+    gender: data.gender,
+    dob: { day: _.get(data, 'dob.day', 1), month: _.get(data, 'dob.month', 1), year: _.get(data, 'dob.year', 1995) },
+    address: data.address,
+    landmark: data.landmark,
+    pincode: data.pincode,
+    state: data.state,
+  });
+  return document;
 }
 
 export function setUserProfileData(user, { firstName, lastName }){
