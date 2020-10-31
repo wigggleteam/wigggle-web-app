@@ -17,16 +17,14 @@ export async function getUsersInfoFromFireStore(uid){
 }
 
 export async function setUsersInfoToFireStore(uid, data){
-
   const document = await db.collection('users').doc(uid).set({
     firstName: data.firstName,
     lastName: data.lastName,
     gender: data.gender,
-    dob: { day: _.get(data, 'dob.day', 1), month: _.get(data, 'dob.month', 1), year: _.get(data, 'dob.year', 1995) },
+    dob: data.dob,
     address: data.address,
-    landmark: data.landmark,
-    pincode: data.pincode,
-    state: data.state,
+    mobile: data.mobile,
+    status: 1,
   });
   return document;
 }
