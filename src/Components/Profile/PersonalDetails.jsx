@@ -4,6 +4,8 @@ import { cities, states } from '../../utils/cityAndStates';
 import { isValidEmail, isValidMobile } from '../../utils/validations';
 import { setUsersInfoToFireStore } from '../../firebase/firestoreServices';
 import _ from 'lodash';
+import styled from 'styled-components';
+import PhotoUploadModal from './PhotoUploadModal';
 
 const options = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -202,8 +204,10 @@ const UserDetails = ({user}) => {
   )
 }
 
-const ProfileDetails = ({auth, setUserInfo}) => {
-  
+const ProfileDetails = ({auth}) => {
+
+  const [imageModal, setImageModal] = useState(false);
+
   console.log(auth);
   const userInfo = {};
   userInfo.uid = _.get(auth, 'user.uid', -1);
@@ -226,7 +230,9 @@ const ProfileDetails = ({auth, setUserInfo}) => {
             <UserDetails user={userInfo}/>
           </Grid.Column>
           <Grid.Column width={4}>
-            <Image src={userInfo.photoURL} size='medium' circular />
+            <ImageContainer onClick={()=> setImageModal(true)}>
+              <Image src={userInfo.photoURL} size='medium' circular />
+            </ImageContainer>
             <Divider horizontal>
               <Header as='h4'>
                 <Icon name='users' />
@@ -245,7 +251,7 @@ const ProfileDetails = ({auth, setUserInfo}) => {
               <Step completed={status > 1}>
                 <Icon name='search' />
                 <Step.Content>
-                  <Step.Title>Verification</Step.Title>
+                  <Step.Title>Processing</Step.Title>
                   <Step.Description>Verification by team.</Step.Description>
                 </Step.Content>
               </Step>
@@ -261,8 +267,18 @@ const ProfileDetails = ({auth, setUserInfo}) => {
           </Grid.Column>
         </Grid.Row>
       </Grid>
+      <PhotoUploadModal visible={imageModal} setVisible={setImageModal} />
     </div>
   )
 }
 
 export default ProfileDetails;
+
+const ImageContainer = styled.div`
+    width: 300px;
+    height: 300px;
+    &:hover {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+`;

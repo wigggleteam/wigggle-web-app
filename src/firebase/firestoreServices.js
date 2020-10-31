@@ -39,3 +39,22 @@ export function setUserProfileData(user, { firstName, lastName }){
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   })
 }
+
+export const updateUserProfilePhoto = async (downloadURL, filename) => {
+  const user = firebase.auth().currentUser;
+  const userDocRef = db.collection('users').doc(user.uid);
+  try {
+    const userDoc = await userDocRef.get();
+    if(!userDoc.data().photoURL){
+      console.log('updating current display picture in db', userDoc.data().photoURL);
+      await db.collection('users').doc(user.uid).update({ photoURL: downloadURL});
+      await user.updateProfile({photoURL: downloadURL});
+    }
+    return await db.collection('users').doc(user.uid).collection('photos').add({ 
+      name: filename,
+      url: downloadURL
+    })
+  }catch(err) {
+    throw err;
+  }
+}
