@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import { Grid, Button, Modal } from 'semantic-ui-react';
+import { Grid, Button, Modal, Message } from 'semantic-ui-react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import Cropper from "react-cropper";
@@ -29,17 +29,36 @@ const dropZoneStyleActive = _.assign({}, dropZoneStyle, {
 const defaultSrc =
   "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
 
+
+const ErrorWithImage = () => (
+    <Message negative>
+      <Message.Header>Oops! There is an issue with this file.</Message.Header>
+      <p>You can only upload png/jpeg files under 5MB.</p>
+    </Message>
+)
+
 const PhotoUploadModal = ({ visible, setVisible}) => {
 
   const [cropper, setCropper] = useState(null);
-  const [file, setFile] = useState({preview: defaultSrc});
-  const [image, setImage] = useState(defaultSrc);
+  const [file, setFile] = useState();
+  const [image, setImage] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const onDrop = useCallback((acceptedFiles)=>{
-    acceptedFiles.map((file) => Object.assign(file, {
-      preview: URL.createObjectURL(file)
-    }))
-    setFile(acceptedFiles[0]);
+  const onDrop = useCallback((acceptedFiles)=>{  
+    const fileReceived = acceptedFiles[0];
+    if(fileReceived){
+      const { type, size } = fileReceived;
+      if((type === "image/png" || type === "image/jpeg" || type === "image/jpg" ) && size < 10 * 1024 * 1024 * 1000){
+        acceptedFiles.map((file) => Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        }))
+        setFile(acceptedFiles[0]);
+      }else{
+        setError(true);
+        setTimeout(()=>setError(false),5000);
+      }
+    }
   },[setFile]);
 
   const cropImage = () => {
@@ -71,59 +90,67 @@ const PhotoUploadModal = ({ visible, setVisible}) => {
     })
   }
 
+  const handleModalClose = () => {
+    setFile();
+    setVisible(false);
+  }
+
   const { getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
 
   console.log(file);
   return(
     <Modal
         dimmer='blurring'
-        size='fullscreen'
+        size='small'
         open={visible}
         onClose={() => setVisible(false)}
       >
         <Modal.Header>Profile Image</Modal.Header>
         <Modal.Content>
-        <Grid columns={3} divided>
+        <Grid columns={1} divided>
           <Grid.Row>
-            <Grid.Column>
-            <DropZone className="container">
-              <div {...getRootProps({style: isDragActive ? dropZoneStyleActive: dropZoneStyle})}>
-                <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
-              </div>
-            </DropZone>
-            </Grid.Column>
-            <Grid.Column style={{position: 'relative'}}>
-            <Cropper
-              ref={cropper}
-              style={{ height: 300, width: "100%" }}
-              aspectRatio={1}
-              preview=".img-preview"
-              src={file.preview}
-              viewMode={0}
-              guides={true}
-              minCropBoxHeight={10}
-              minCropBoxWidth={10}
-              background={false}
-              responsive={true}
-              autoCropArea={1}
-              checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-              onInitialized={(instance) => {
-                setCropper(instance);
-              }}
-            />
-            </Grid.Column>
-            <Grid.Column>
-              <PreviewContainer
+            {!file &&
+              <Grid.Column>
+                {error && <ErrorWithImage />}
+                <DropZone className="container">
+                  <div {...getRootProps({style: isDragActive ? dropZoneStyleActive: dropZoneStyle})}>
+                    <input {...getInputProps()} accept="image/png|image/jpg|image/jpeg" />
+                    <p>Drag 'n' drop some files here, or click to select files</p>
+                  </div>
+                </DropZone>
+                </Grid.Column>
+            }
+            {file && 
+              <Grid.Column>
+                <Cropper
+                  ref={cropper}
+                  style={{ height: 300, width: "100%" }}
+                  aspectRatio={1}
+                  preview=".img-preview"
+                  src={file.preview}
+                  viewMode={0}
+                  guides={true}
+                  minCropBoxHeight={10}
+                  minCropBoxWidth={10}
+                  background={false}
+                  responsive={true}
+                  autoCropArea={1}
+                  checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+                  onInitialized={(instance) => {
+                    setCropper(instance);
+                  }}
+                />
+                <PreviewContainer
                 className="img-preview"
                 style={{ width: "100%", float: "left", height: "300px"}}
-              />
-            </Grid.Column>
+                />
+              </Grid.Column>
+          }
           </Grid.Row>
         </Grid>
         </Modal.Content>
         <Modal.Actions>
-          <Button negative onClick={() => setVisible(false)}>
+          <Button negative onClick={handleModalClose}>
             Later
           </Button>
           <Button positive onClick={handleUploadImage}>
