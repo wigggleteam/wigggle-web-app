@@ -39,3 +39,30 @@ export function setUserProfileData(user, { firstName, lastName }){
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   })
 }
+
+export const updateUserProfilePhoto = async (downloadURL, filename) => {
+  const user = firebase.auth().currentUser;
+  console.log(user.uid);
+  const userDocRef = db.collection('users').doc(user.uid);
+  try {
+    const userDoc = await userDocRef.get();
+    if(!userDoc.exists){
+      throw new Error('User Ref is wrong here');
+    }
+    const userObj = userDoc.data();
+    console.log("This is the user we are going to update : ", userObj, );
+    console.log('Going to update the user profile photo in DB from', userDoc.data().photoURL, 'to', downloadURL);
+    await db.collection('users').doc(user.uid).update({ photoURL: downloadURL});
+    /**
+     * Why we need to update the auth object lets keep their original profile picture in there..
+     */
+    // await user.updateProfile({photoURL: downloadURL}); 
+    return await db.collection('users').doc(user.uid).collection('photos').add({ 
+      name: filename,
+      url: downloadURL
+    })
+  }catch(err) {
+    console.log('Error happened while updating image', err);
+    throw err;
+  }
+}

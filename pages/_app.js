@@ -1,9 +1,11 @@
 import React from 'react';
 import Router from 'next/router';
 import App from 'next/app';
+import Head from 'next/head'
 import { wrapper } from '../src/model/store';
 import { appWithTranslation } from '../src/i18n';
 import NProgress from 'nprogress';
+import "cropperjs/dist/cropper.css";
 
 NProgress.configure({ minimum: 0.1 });
 
@@ -26,7 +28,12 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     return (
-      <Component {...pageProps} />
+      <>
+        <Head>
+          <meta name="viewport" content="viewport-fit=cover" />
+        </Head>
+        <Component {...pageProps} />
+      </>
     )
   }
 }

@@ -40,7 +40,8 @@ const sections = {
   },
   [BECOME_A_HOST]: {
     key: BECOME_A_HOST,
-    label: 'Become a Host',
+    label: 'Host',
+    component: (props) => <WishList {...props} />,
   }
 }
 
