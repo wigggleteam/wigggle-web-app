@@ -41,7 +41,7 @@ if (!isNode) {
     blacklist: [],
   };
 
-  reducer = persistReducer(persistConfig, _reducer)
+  reducer = persistReducer(persistConfig, _reducer);
 }else{
   reducer = _reducer;
 }

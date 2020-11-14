@@ -1,5 +1,6 @@
 import React, {useState, useCallback} from 'react';
-import { Grid, Button, Modal, Message } from 'semantic-ui-react';
+import { Grid, Button, Modal, Message, Dimmer, Loader } from 'semantic-ui-react';
+import { useDispatch } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import Cropper from "react-cropper";
@@ -39,9 +40,9 @@ const ErrorWithImage = () => (
 
 const PhotoUploadModal = ({ visible, setVisible}) => {
 
+  const dispatch = useDispatch();
   const [cropper, setCropper] = useState(null);
   const [file, setFile] = useState();
-  const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -62,29 +63,37 @@ const PhotoUploadModal = ({ visible, setVisible}) => {
   },[setFile]);
 
   const cropImage = () => {
-    if(!cropper || typeof cropper.getCroppedCanvas() === "undefined"){
-      return;
-    }
+    return new Promise(resolve => {
+      if(!cropper || typeof cropper.getCroppedCanvas() === "undefined"){
+        throw new Error('Cropper is not available');
+      }
 
-    cropper.getCroppedCanvas().toBlob((blob) => {
-      setImage(blob)
-    }, 'image/jpeg');
-  }
+      cropper.getCroppedCanvas().toBlob((blob) => {
+        resolve(blob)
+      }, 'image/jpeg');
+    });
+  };
 
-  const handleUploadImage = () => {
-    cropImage();
+  const handleUploadImage = async() => {
+    setLoading(true);
+    const image = await cropImage();
     console.log('Going to upload image', file.name);
-    const fileName = cuid() + '.' + getFileExtension(file.name); 
+    const fileName = cuid() + '.' + 'jpeg'; // getFileExtension(file.name); 
+    console.log(`Uploading file name: ${fileName}`);
     const uploadTask = uploadToFirebaseStorage(image, fileName);
     uploadTask.on('state_changed', snapshot => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log( 'uplaod is' + progress + '% done');
+      console.log( 'Upload is at' + progress + '% done');
     }, error => {
       console.log(error);
     }, () => {
       uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+        console.log("This is the download URL", downloadURL);
         updateUserProfilePhoto(downloadURL, fileName).then(()=>{
-          // setLoading(false);
+          console.log("Updated user profile photo")
+          setLoading(false);
+          setVisible(false);
+          dispatch({type: 'VERIFY_LOGIN'});
         })
       })
     })
@@ -101,15 +110,18 @@ const PhotoUploadModal = ({ visible, setVisible}) => {
   return(
     <Modal
         dimmer='blurring'
-        size='small'
+        size='large'
         open={visible}
         onClose={() => setVisible(false)}
       >
         <Modal.Header>Profile Image</Modal.Header>
         <Modal.Content>
-        <Grid columns={1} divided>
-          <Grid.Row>
+          <Dimmer active={loading} inverted>
+            <Loader inverted content="Uploading Image. Please wait.." />
+          </Dimmer>
             {!file &&
+            <Grid columns={1} divided>
+              <Grid.Row>
               <Grid.Column>
                 {error && <ErrorWithImage />}
                 <DropZone className="container">
@@ -119,35 +131,43 @@ const PhotoUploadModal = ({ visible, setVisible}) => {
                   </div>
                 </DropZone>
                 </Grid.Column>
+                </Grid.Row>
+              </Grid>
             }
             {file && 
-              <Grid.Column>
-                <Cropper
-                  ref={cropper}
-                  style={{ height: 300, width: "100%" }}
-                  aspectRatio={1}
-                  preview=".img-preview"
-                  src={file.preview}
-                  viewMode={0}
-                  guides={true}
-                  minCropBoxHeight={10}
-                  minCropBoxWidth={10}
-                  background={false}
-                  responsive={true}
-                  autoCropArea={1}
-                  checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-                  onInitialized={(instance) => {
-                    setCropper(instance);
-                  }}
-                />
-                <PreviewContainer
-                className="img-preview"
-                style={{ width: "100%", float: "left", height: "300px"}}
-                />
-              </Grid.Column>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={10}>
+                    <h5>Please crop your profile image below :</h5>
+                    <Cropper
+                      ref={cropper}
+                      style={{ height: 300, width: "100%" }}
+                      aspectRatio={1}
+                      preview=".img-preview"
+                      src={file.preview}
+                      viewMode={0}
+                      guides={true}
+                      minCropBoxHeight={10}
+                      minCropBoxWidth={10}
+                      background={false}
+                      responsive={true}
+                      autoCropArea={1}
+                      checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+                      onInitialized={(instance) => {
+                        setCropper(instance);
+                      }}
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={6}>
+                    <h5>Preview of Profile Image</h5>
+                    <PreviewContainer
+                    className="img-preview"
+                    style={{ width: "100%", float: "left", height: "300px"}}
+                    />
+                  </Grid.Column>
+              </Grid.Row>
+            </Grid>
           }
-          </Grid.Row>
-        </Grid>
         </Modal.Content>
         <Modal.Actions>
           <Button negative onClick={handleModalClose}>
