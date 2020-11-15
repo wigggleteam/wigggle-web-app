@@ -1,17 +1,17 @@
 import Head from 'next/head';
 import Layout from '../../src/Components/Layout';
-import Profile from '../../src/Components/Profile';
+import CreateEvent from '../../src/Components/Host/CreateEvent';
 
 export default () => {
   return (
     <div>
       <Head>
-        <title>Wigggle | Event</title>
+        <title>Event</title>
       </Head>
 
       <main>
         <Layout>
-          <Profile />
+          <CreateEvent />
         </Layout>
       </main>
     </div>

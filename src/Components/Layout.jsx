@@ -120,7 +120,9 @@ const BasicLayout = ({ children, setVisible, setLoginVisible, auth, logoutUser }
         <WhiteMenuText>Become a host</WhiteMenuText>
       </MenuBox>
     </Menu>
+    <div style={{minHeight: '80vh'}}>
     {children}
+    </div>
     <Footer />
   </Body>)
 }

@@ -3,6 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { SET_ERROR, SET_USER, UNSET_USER } from './actions';
 
 const initialState = {
+  loading: true,
   isLoggedIn: false,
   user: null,
   userInfo: null,
@@ -15,14 +16,14 @@ function _reducer(state = initialState, action){
       return { ...state }
     }
     case SET_ERROR: {
-      return { ...state, error: action.payload}
+      return { ...state, error: action.payload, loading: false}
     }
     case SET_USER: {
       const data = _.cloneDeep(action.payload);
-      return {...state, ...data}
+      return {...state, ...data, loading: false}
     }
     case UNSET_USER: {
-      return {...initialState}
+      return {...initialState, loading: false}
     }
     default:
       return state;
