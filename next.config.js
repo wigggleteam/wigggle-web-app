@@ -1,4 +1,5 @@
-require("dotenv").config()
+require("dotenv").config();
+const withLess = require('@zeit/next-less');
 
 const config = {
     target: "serverless",

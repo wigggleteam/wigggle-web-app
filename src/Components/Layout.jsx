@@ -25,12 +25,14 @@ const ProfileBox = ({ auth }) => {
     href= '/profile';
   }
 
+  const photoURL = auth.isLoggedIn ? _.get(auth, 'userInfo.photoURL') || _.get(auth, 'user.photoURL') || "assets/user.png" : "assets/user.png" ;
+
   return (
     <Link href={href}>
       <Grid style={{padding: '10px'}}>
         <Grid.Row>
           <Grid.Column width={6}>
-            <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='medium' circular />
+            <Image src={photoURL} size='medium' circular />
           </Grid.Column>
           <Grid.Column width={10}>
             <Welcome>Hi, {auth.isLoggedIn ? _.get(auth, 'user.displayName') || 'Name not found' : 'Guest' }  </Welcome>
