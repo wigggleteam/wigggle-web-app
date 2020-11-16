@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Layout from '../../src/Components/Layout';
-import CreateEvent from '../../src/Components/Host/CreateEvent';
+import Host from '../../src/Components/Host/index';
 
 export default () => {
   return (
@@ -11,7 +11,7 @@ export default () => {
 
       <main>
         <Layout>
-          <CreateEvent />
+          <Host />
         </Layout>
       </main>
     </div>
