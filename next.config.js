@@ -14,6 +14,7 @@ const config = {
             appId: process.env.FIREBASE_APP_ID,
         },
     },
+    cssModules: true,
 }
 
-module.exports = config;
+module.exports = withLess(config);

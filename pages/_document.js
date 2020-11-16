@@ -24,6 +24,7 @@ class MyDocuments extends Document {
           <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
           <link rel="stylesheet" href="/css/basic.css" />
           <link rel="stylesheet" type="text/css" href="/css/nprogress.css" />
+          <link rel="stylesheet" type="text/css" href="/css/cropper.css" />
           {this.props.styleTags}
         </Head>
         <body>

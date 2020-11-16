@@ -5,7 +5,6 @@ import Head from 'next/head'
 import { wrapper } from '../src/model/store';
 import { appWithTranslation } from '../src/i18n';
 import NProgress from 'nprogress';
-import "cropperjs/dist/cropper.css";
 
 NProgress.configure({ minimum: 0.1 });
 
