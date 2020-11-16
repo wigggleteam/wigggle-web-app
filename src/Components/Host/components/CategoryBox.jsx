@@ -17,9 +17,9 @@ const CategoryBox = ({id, category, useCategory, handleCategorySelect, useSubCat
           <div className={styles.subCategories}>
             {_.map(category.subCategories, (value, key) => (
               <div key={key} className={styles.eachSubCategory} onClick={(e) => { e.stopPropagation(); setSelectedSubCategory(key);}}> 
-                { selectedSubCategory === key ? <Icon name="star filled" className={styles.golden} /> : <Icon name="star outline" /> }
+                { selectedSubCategory === key ? <Icon name="star" className={styles.golden} /> : <Icon name="star outline" /> }
                 { value.label } 
-                { selectedSubCategory === key ? <Icon name="star filled" className={styles.golden} /> : <Icon name="star outline" /> }
+                { selectedSubCategory === key ? <Icon name="star" className={styles.golden} /> : <Icon name="star outline" /> }
               </div>
             ))}
           </div>

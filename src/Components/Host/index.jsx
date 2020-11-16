@@ -3,23 +3,25 @@ import { useRouter } from 'next/router';
 import withAuthentication from '../../HOC/isAuthenticated';
 import CreateEvent from './CreateEvent';
 
-const HostSection = ({auth}) => {
+const HostSection = (props) => {
 
   const router = useRouter();
 
-  const { userInfo = {} } = auth;
+  const { userInfo = {} } = props.auth;
   const roles = _.get(userInfo, 'roles', []);
   console.log('This is a host',roles.includes('HOST'));
-  if(!auth.isLoggedIn || !roles.includes('HOST')){
+  if(!props.auth.isLoggedIn || !roles.includes('HOST')){
     router.push('/');
     return (
-      <h2>Redirecting to home</h2>
+      <div {...props}>
+        <h2>Redirecting to home</h2>
+      </div>
     )
   }
 
-  return <CreateEvent auth={auth} />
+  return <CreateEvent {...props}/>
 }
 
-const Host = withAuthentication(HostSection);
+const HostView = withAuthentication(HostSection);
 
-export default Host;
+export default HostView;

@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Layout from '../../src/Components/Layout';
-import Host from '../../src/Components/Host/index';
+import Host from '../../src/Components/Host';
 
-export default () => {
+const EventPage = () => {
   return (
     <div>
       <Head>
@@ -17,3 +17,5 @@ export default () => {
     </div>
   )
 }
+
+export default EventPage;
