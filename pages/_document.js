@@ -1,4 +1,4 @@
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components'
 
 class MyDocuments extends Document {
@@ -14,7 +14,7 @@ class MyDocuments extends Document {
 
   render() {
     return (
-      <html lang="en">
+      <Html lang="en">
         <Head>
           <meta name="description" content="" />
           <meta charSet="utf-8" />
@@ -25,13 +25,15 @@ class MyDocuments extends Document {
           <link rel="stylesheet" href="/css/basic.css" />
           <link rel="stylesheet" type="text/css" href="/css/nprogress.css" />
           <link rel="stylesheet" type="text/css" href="/css/cropper.css" />
+          <link rel="stylesheet" type="text/css" href="/css/react-datepicker.css" />
+          <link rel="stylesheet" type="text/css" href="/css/rc-slider.css" />
           {this.props.styleTags}
         </Head>
         <body>
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }
