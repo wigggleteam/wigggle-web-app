@@ -124,7 +124,9 @@ const BasicLayout = ({ children, setVisible, setLoginVisible, auth, logoutUser }
         </MenuBox>
       </Menu.Menu>
       <MenuBox width='15vw' style={{ backgroundColor: '#fe4356', textAlign: 'center' }}>
-        <WhiteMenuText>Become a host</WhiteMenuText>
+        <Link href='/profile'>
+          <WhiteMenuText>Become a host</WhiteMenuText>
+        </Link>
       </MenuBox>
     </Menu>
     <div style={{minHeight: '80vh'}}>
