@@ -17,7 +17,7 @@ export async function getUsersInfoFromFireStore(uid){
 }
 
 export async function setUsersInfoToFireStore(uid, data){
-  const document = await db.collection('users').doc(uid).set({
+  const document = await db.collection('users').doc(uid).update({
     firstName: data.firstName,
     lastName: data.lastName,
     gender: data.gender,

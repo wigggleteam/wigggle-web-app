@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import dynamic from 'next/dynamic'
 import _ from 'lodash';
 import styled from 'styled-components';
 import { Grid, Divider } from 'semantic-ui-react';
@@ -10,6 +8,7 @@ import PersonalDetails from './PersonalDetails';
 import PersonalPreferences from './PersonalPreferences';
 import UpcomingEvents from './UpcomingEvents';
 import WishList from './WishList';
+import Host from './Host/index';
 
 const PERSONAL_DETAILS = 'pd';
 const PERSONAL_PREFERENCES = 'pp';
@@ -41,7 +40,7 @@ const sections = {
   [BECOME_A_HOST]: {
     key: BECOME_A_HOST,
     label: 'Host',
-    component: (props) => <WishList {...props} />,
+    component: (props) => <Host {...props} />,
   }
 }
 

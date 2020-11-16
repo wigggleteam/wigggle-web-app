@@ -1,4 +1,5 @@
-require("dotenv").config()
+require("dotenv").config();
+const withLess = require('@zeit/next-less');
 
 const config = {
     target: "serverless",
@@ -13,6 +14,7 @@ const config = {
             appId: process.env.FIREBASE_APP_ID,
         },
     },
+    cssModules: true,
 }
 
-module.exports = config;
+module.exports = withLess(config);

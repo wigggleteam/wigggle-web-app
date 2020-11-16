@@ -13,7 +13,7 @@ import {
 } from 'semantic-ui-react';
 import AuthUserModal from './Authentication';
 import { Footer } from './Footer';
-import { categories } from '../constants/categories';
+import { categoriesMappings } from '../constants/categories';
 import Link from 'next/link';
 import { connect } from 'react-redux';
 import { logoutUserAction } from '../model/auth/actions';
@@ -25,20 +25,29 @@ const ProfileBox = ({ auth }) => {
     href= '/profile';
   }
 
+  const photoURL = auth.isLoggedIn ? _.get(auth, 'userInfo.photoURL') || _.get(auth, 'user.photoURL') || "assets/user.png" : "assets/user.png" ;
+
   return (
-    <Link href={href}>
       <Grid style={{padding: '10px'}}>
         <Grid.Row>
           <Grid.Column width={6}>
-            <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='medium' circular />
+            <Link href={href}>
+              <div>
+              <Image src={photoURL} size='medium' circular />
+              </div>
+            </Link>
           </Grid.Column>
           <Grid.Column width={10}>
-            <Welcome>Hi, {auth.isLoggedIn ? _.get(auth, 'user.displayName') || 'Name not found' : 'Guest' }  </Welcome>
+          <Link href={href}>
+            <div>
+            <WelcomeText>Hi, {auth.isLoggedIn ? _.get(auth, 'user.displayName') || 'Name not found' : 'Guest' }  </WelcomeText>
             <Join>Lets know each other better</Join>
+            </div>
+            </Link>
           </Grid.Column>
+          
         </Grid.Row>
       </Grid>
-    </Link>
   )
 }
 
@@ -59,11 +68,11 @@ const SideMenu = ({ children, visible, setVisible, auth }) => {
           <ProfileBox auth={auth} />
         </Menu.Item>
 
-        {_.map(categories, (category) => {
+        {_.map(categoriesMappings, (category, key) => {
           return (
-            <Link href='/showcase'>
-              <Menu.Item as='a' style={{ padding: '20px 0' }}>
-                <Category>{category.label}</Category>
+            <Link key={key} href='/showcase'>
+              <Menu.Item key={key} as='a' style={{ padding: '20px 0' }}>
+                <Category key={key}>{category.label}</Category>
               </Menu.Item>
             </Link>
             )
@@ -118,7 +127,9 @@ const BasicLayout = ({ children, setVisible, setLoginVisible, auth, logoutUser }
         <WhiteMenuText>Become a host</WhiteMenuText>
       </MenuBox>
     </Menu>
+    <div style={{minHeight: '80vh'}}>
     {children}
+    </div>
     <Footer />
   </Body>)
 }
@@ -180,7 +191,7 @@ const WhiteMenuText = styled.p`
   font-family: 'Quicksand', sans-serif !important;
 `;
 
-const MenuText = styled.p`
+const MenuText = styled.div`
   font-size: ${(props) => props.fontSize ? props.fontSize : '14px'};
   font-weight: 400 !important;
   cursor: pointer;
@@ -215,7 +226,7 @@ const Category = styled.h3`
   font-weight: 500;
 `;
 
-const Welcome = styled.h3`
+const WelcomeText = styled.h4`
   text-align: left;
   font-weight: 500;
   margin: 5px;
