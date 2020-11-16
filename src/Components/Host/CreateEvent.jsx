@@ -24,12 +24,20 @@ const Event = () => {
       guestStrength: '10-15',
       ageRange: [18, 30],
       amenities: []
+    },
+    step3: {
+      tickets: {
+        ticket1: {
+          name: 'basic',
+          price: 100
+        }
+      }
     }
   }
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-  const [currentStep, setCurrentStep] = useState('step2');
+  const [currentStep, setCurrentStep] = useState('step3');
   const [form, setForm] = useState(initialState);
 
   const goToNext = () => {
@@ -116,7 +124,6 @@ const Event = () => {
   const renderStep2 = () => {
 
     const { ageRange, guestStrength, amenities } = form.step2;
-    console.log('trying this', form.step2);
 
     const handleStep2Change = (key, value) => {
       setForm((form) => (
@@ -195,7 +202,79 @@ const Event = () => {
   }
 
   const renderStep3 = () => {
-    return(<h1>Step 3</h1>)
+
+    const { tickets } = form.step3;
+
+    const handleTicketChange = (key, value) => {
+      const { name, price } = value;
+      const ticketUpdated = _.cloneDeep(form.step3.tickets[key]);
+      console.log(key);
+      if(name != null){
+        ticketUpdated.name = name;
+        setForm((form) => (
+          { ...form, step3: { ...form.step3, tickets: { ...form.step3.tickets, [key]: ticketUpdated }}}
+        ))
+      }
+      if(price){
+        if(isNaN(Number(price))){
+          return;
+        }
+        ticketUpdated.price = Number(price);
+        setForm((form) => (
+          { ...form, step3: { ...form.step3, tickets: { ...form.step3.tickets, [key]: ticketUpdated }}}
+        ))
+      }
+    }
+
+    const addTicket = () => {
+      const ticketUpdated = _.cloneDeep(form.step3.tickets);
+      const previousTicketsPresent = _.reduce(ticketUpdated, (acc, ticket) => {
+        const { name, price } = ticket;
+        return acc && Boolean(name) && Boolean(Number(price) && name !== 'New');
+      }, true);
+      
+      if(!previousTicketsPresent) {
+        return;
+      }
+
+      const ticketId = `ticket-${Date.now()}`;
+      setForm((form) => (
+        { ...form, step3: { ...form.step3, tickets: { ...form.step3.tickets, [ticketId]: {name: 'New', price: '0'}}}}
+      ))
+    }
+
+    return(
+      <div className={styles.ticketContainer}>
+        <h2>Create ticket :</h2>
+        {
+          _.map(tickets, (value, key) => {
+            return (
+              <>
+                <Input 
+                  icon='ticket alternate' 
+                  iconPosition='left' 
+                  placeholder='Ticket Name' 
+                  value={value.name} 
+                  onChange={(e, inputValue) => handleTicketChange(key, { name: inputValue.value })}
+                  className={styles.ticketName} />
+                <Input 
+                  icon='rupee' 
+                  iconPosition='left' 
+                  placeholder='Price for ticket' 
+                  value={value.price} 
+                  onChange={(e, inputValue) => handleTicketChange(key, { price: inputValue.value })}
+                  className={styles.ticketPrice}/>
+                <br /> <br />
+              </>
+            )
+          })
+        }
+        <br />
+        <Button icon className={styles.addTicket} onClick={addTicket}>
+          <Icon name='plus' />
+        </Button>
+      </div>
+    );
   }
   
   return (
