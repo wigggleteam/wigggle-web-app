@@ -37,7 +37,8 @@ const Event = () => {
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-  const [currentStep, setCurrentStep] = useState('step3');
+  const [currentStep, setCurrentStep] = useState('step1');
+  const [postingEvent, setPostingEvent] = useState(false);
   const [form, setForm] = useState(initialState);
 
   const goToNext = () => {
@@ -46,6 +47,12 @@ const Event = () => {
     }
     if(currentStep === 'step2') {
       setCurrentStep('step3');
+    }
+
+    if(currentStep === 'step3') {
+      setPostingEvent(true);
+      console.log('Going to submit');
+      setTimeout(()=>setPostingEvent(false), 3000)
     }
     
   }
@@ -72,7 +79,7 @@ const Event = () => {
           <Grid columns='three'>
             <Grid.Row>
               {_.map(categoriesMappings, (category, key) => (
-                <Grid.Column>
+                <Grid.Column key={key}>
                   <CategoryBox category={category} key={key} id={key} useSubCategory={() => [selectedSubCategory, setSelectedSubCategory]} useCategory={() => [selectedCategory, setSelectedCategory]} handleCategorySelect={handleCategorySelect} />
                 </Grid.Column>
               ))}
@@ -323,8 +330,8 @@ const Event = () => {
         <Grid.Row>
           <Grid.Column width={16}>
             <div className={styles.nextButtonContainer}>
-              <Button className={styles.nextButton} onClick={() => goToNext()} size="huge" icon labelPosition='right'>
-                Next <Icon name='right arrow' />
+              <Button className={styles.nextButton} onClick={() => goToNext()} size="huge" icon labelPosition='right' loading={postingEvent}>
+                { currentStep === 'step3' ? <>Submit <Icon name='check' /></> : <>Next <Icon name='right arrow' /></> }
               </Button>
             </div>
           </Grid.Column>
