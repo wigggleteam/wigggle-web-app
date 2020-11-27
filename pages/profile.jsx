@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Layout from '../src/Components/Layout';
 import Profile from '../src/Components/Profile';
 
-export default () => (
+const AuthenticatedProfile = () => (
   <div>
     <Head>
       <title>Wigggle | Profile</title>
@@ -15,3 +15,5 @@ export default () => (
     </main>
   </div>
 );
+
+export default AuthenticatedProfile;

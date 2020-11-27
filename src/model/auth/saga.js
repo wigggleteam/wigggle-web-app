@@ -4,7 +4,7 @@ import { take, takeLatest, put, call } from 'redux-saga/effects';
 import { setUserAction, unsetUserAction, setErrorAction} from './actions';
 import { LOGIN_REQUEST, VERIFY_LOGIN, LOGOUT_REQUEST } from './actions';
 import { authListener, signInWithCredentials, signoutUser } from '../../firebase/authentication';
-import { getUsersInfoFromFireStore} from '../../firebase/firestoreServices';
+import { getUsersInfoFromFireStore} from '../../firebase/firestore/firestoreServices';
 
 
 const userVerifyChannel = channel()

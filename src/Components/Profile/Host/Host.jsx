@@ -12,7 +12,7 @@ const Host = ({auth}) => {
         <Grid.Row>
           <Grid.Column width={12}>
             <h3>Welcome Host</h3>
-            <Button onClick={()=> router.push('/host/event/')}>
+            <Button onClick={()=> window.location.href = '/host/event/'}>
               Post event
             </Button>
           </Grid.Column>

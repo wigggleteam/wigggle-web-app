@@ -1,5 +1,5 @@
 import firebaseApp from './config';
-import { setUserProfileData, getUsersInfoFromFireStore } from './firestoreServices'; 
+import { setUserProfileData, getUsersInfoFromFireStore } from './firestore/firestoreServices'; 
 
 const auth = firebaseApp.auth();
 

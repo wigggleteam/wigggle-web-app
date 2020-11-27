@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Grid } from 'semantic-ui-react';
 import { Filter } from './Filter';
 import { Events } from './Events';
-import { getEventsFromFireStore } from '../../firebase/firestoreServices';
+import { getEventsFromFireStore } from '../../firebase/firestore/firestoreServices';
 import { fetchDataFromEventSnapshot } from '../../firebase/utils';
 import { setEvents } from '../../model/showcase/actions';
 

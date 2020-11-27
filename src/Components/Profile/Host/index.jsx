@@ -16,7 +16,7 @@ const HostSection = ({auth}) => {
 
   if(!roles.includes('HOST')){
     return (
-      <BecomeHost />
+      <BecomeHost auth={auth}/>
     )
   }
 

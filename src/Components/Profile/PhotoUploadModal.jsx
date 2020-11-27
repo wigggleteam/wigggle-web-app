@@ -8,7 +8,7 @@ import _ from 'lodash';
 import cuid from 'cuid';
 import { getFileExtension } from '../../utils/functions';
 import { uploadToFirebaseStorage } from '../../firebase/fireStorageService';
-import { updateUserProfilePhoto } from '../../firebase/firestoreServices';
+import { updateUserProfilePhoto } from '../../firebase/firestore/firestoreServices';
 
 const dropZoneStyle = {
   border: '3px dashed #999',
