@@ -4,6 +4,7 @@ import { Card, Image } from 'semantic-ui-react';
 import moment from 'moment';
 import faker from 'faker';
 import _ from 'lodash';
+import styles from './event.module.less';
 
 const toDisplayDate = (dateObj = new Date()) => {
   const date = moment(dateObj).format("dddd, MMM Do");
@@ -15,16 +16,18 @@ export const EventCard = ({event = {}, ...props}) => {
 
   const dates = event.eventDates || [];
   const displayDate = toDisplayDate(dates[0]) || 'No Date';
+  const imagesUrl = event.imagesUrl && event.imagesUrl[0] || "https://via.placeholder.com/600x300" ;
 
   return(
-  <div style={{cursor: 'pointer'}}>
+  <div className={styles.card}>
     <Card {...props}>
-      <Image src={event && event.image || faker.image.fashion()  } wrapped height='400px' />
+      <Image src={imagesUrl} wrapped height='100px' />
       <Card.Content>
         <Card.Description>
-          <DateDisplay>{displayDate}</DateDisplay>
+          <p className={styles.date}>{displayDate}</p>
         </Card.Description>
-        <Card.Header>{ _.get(event, 'title', 'No Title')} 
+        <Card.Header>
+          <p className={styles.title}>{ _.get(event, 'title', 'No Title')}</p>
           <span style={{float: 'right'}}>Rs { _.get(event, 'ticket.basic', '-')}</span>
         </Card.Header>
         <Card.Meta>{ _.get(event, 'hosts.leader.name', 'Host Not Found') }</Card.Meta>
@@ -34,11 +37,4 @@ export const EventCard = ({event = {}, ...props}) => {
   )
 }
 
-export default EventCard
-
-const DateDisplay = styled.p`
-  font-size: 14px;
-  font-weight: bold;
-  color: #F34949;
-  padding-bottom: 10px;
-`
+export default EventCard;

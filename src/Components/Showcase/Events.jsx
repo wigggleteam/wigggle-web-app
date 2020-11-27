@@ -34,7 +34,7 @@ export const Events = ({ events = [] }) => {
   }
 
   return (
-    <Grid columns={3}>
+    <Grid columns={4}>
       <Grid.Row>
         {_.map(events, (event) => {
           console.log(event)

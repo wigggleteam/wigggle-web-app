@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import { categoriesMappings } from '../../constants/categories';
 import { amenities as amenitiesConstant } from '../../constants/amenities';
 import { guestStrength as guestStrengthConstant } from '../../constants/guestStrength';
+import { createNewEvent } from "../../firebase/firestore/events";
 import CategoryBox from './components/CategoryBox';
 import styles from './style.less';
 
@@ -40,33 +41,43 @@ const Event = () => {
   const [currentStep, setCurrentStep] = useState('step1');
   const [postingEvent, setPostingEvent] = useState(false);
   const [form, setForm] = useState(initialState);
+  const [nextDisabled, setNextDisabled] = useState(false);
 
   const goToNext = () => {
     if(currentStep === 'step1') {
       setCurrentStep('step2');
     }
+
     if(currentStep === 'step2') {
+      console.log(form.step2);
       setCurrentStep('step3');
     }
 
     if(currentStep === 'step3') {
       setPostingEvent(true);
       console.log('Going to submit');
+      console.log(form.step3);
+      createNewEvent()
       setTimeout(()=>setPostingEvent(false), 3000)
     }
     
   }
 
-  const handleCategorySelect = (category) => {
+  const handleCategorySelect = () => {
     setForm((form) => (
-      { ...form, step1: { category }}
+      { ...form, step1: {...form.step1, category: selectedCategory, subcategory: selectedSubCategory }}
     ))
   }
 
-  const handleChange = (e, value) => {
+  const handleChange = (e, {name, value}) => {
+
     setForm((form) => (
-      { ...form, step1: { ...form.step1, ...value}}
-    ))
+      { ...form, step1: { ...form.step1, [name]: value}}
+    ));
+    let allFilled = _.reduce(form.step1, (acc, value) => acc && Boolean(value), true);
+    allFilled = allFilled && Boolean(value);
+    console.log(form.step1);
+    setNextDisabled(!allFilled);
   }
 
   const renderStep1 = () => {
@@ -80,7 +91,12 @@ const Event = () => {
             <Grid.Row>
               {_.map(categoriesMappings, (category, key) => (
                 <Grid.Column key={key}>
-                  <CategoryBox category={category} key={key} id={key} useSubCategory={() => [selectedSubCategory, setSelectedSubCategory]} useCategory={() => [selectedCategory, setSelectedCategory]} handleCategorySelect={handleCategorySelect} />
+                  <CategoryBox 
+                    category={category} 
+                    key={key} id={key} 
+                    useSubCategory={() => [selectedSubCategory, setSelectedSubCategory]} 
+                    useCategory={() => [selectedCategory, setSelectedCategory]} 
+                    handleCategorySelect={handleCategorySelect} />
                 </Grid.Column>
               ))}
             </Grid.Row>
@@ -91,7 +107,6 @@ const Event = () => {
       const selectedCategoryObj = _.get(categoriesMappings, form['step1'].category, '--');
       const selectedSubCategoryObj = _.get(selectedCategoryObj, `subCategories.${selectedSubCategory}`, '--')
 
-      console.log('This is the date', form.step1.eventDate)
       return (
         <div className={styles.formEvent}>
           <h2>{selectedCategoryObj.label} - {selectedSubCategoryObj.label}</h2>
@@ -119,7 +134,10 @@ const Event = () => {
                     />
                 </Form>
                 <p className={styles.datePickerLabel}> Event Date: </p>
-                <DatePicker selected={form.step1.eventDate || new Date()} onChange={date => handleChange('', {eventDate: date})} className={styles.datePicker} />
+                <DatePicker 
+                  selected={form.step1.eventDate || new Date()} 
+                  onChange={date => handleChange('', {name: 'eventDate', value: date})} 
+                  className={styles.datePicker} />
                 </Grid.Column>
               </Grid.Row>
           </Grid>
@@ -154,6 +172,7 @@ const Event = () => {
 
     return(
       <div className={styles.guestContainer}>
+        <div className={styles.guestContent}>
         <h4>Select your Guests</h4>
         <Form>
         <Form.Field>
@@ -164,6 +183,7 @@ const Event = () => {
             _.map(guestStrengthConstant, (strength) => {
               return (
                 <Radio
+                  key={strength.key}
                   className={styles.radioGuestsSelector}
                   label={strength.label}
                   name='guestStrength'
@@ -205,6 +225,7 @@ const Event = () => {
           }
         </Form.Field>
       </Form>
+      </div>
       </div>)
   }
 
@@ -330,7 +351,7 @@ const Event = () => {
         <Grid.Row>
           <Grid.Column width={16}>
             <div className={styles.nextButtonContainer}>
-              <Button className={styles.nextButton} onClick={() => goToNext()} size="huge" icon labelPosition='right' loading={postingEvent}>
+              <Button disabled={nextDisabled} className={styles.nextButton} onClick={() => goToNext()} size="huge" icon labelPosition='right' loading={postingEvent}>
                 { currentStep === 'step3' ? <>Submit <Icon name='check' /></> : <>Next <Icon name='right arrow' /></> }
               </Button>
             </div>

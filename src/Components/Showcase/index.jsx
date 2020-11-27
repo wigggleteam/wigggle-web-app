@@ -37,13 +37,19 @@ class ShowCase extends Component{
         <h3>Health and Wellness - <span>12 Events</span></h3>
         <Grid>
           <Grid.Row>
-            <Grid.Column width={4}>
+            <Grid.Column width={3}>
               <h5>Filters</h5>
               <h5>Clear All</h5>
               <Filter />
             </Grid.Column>
-            <Grid.Column width={12}>
-              <p><Subheading active={true}>All</Subheading> <Subheading>Food</Subheading> <Subheading>Personality Building</Subheading> <Subheading>Physical Wellness</Subheading> <Subheading>Mental Health</Subheading> </p>
+            <Grid.Column width={13}>
+              <p>
+                <Subheading active={true}>All</Subheading> 
+                <Subheading>Food</Subheading> 
+                <Subheading>Personality Building</Subheading> 
+                <Subheading>Physical Wellness</Subheading> 
+                <Subheading>Mental Health</Subheading>
+              </p>
               <Events events={showcase.events} />
             </Grid.Column>
           </Grid.Row>
