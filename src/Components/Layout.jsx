@@ -9,7 +9,8 @@ import {
   Segment,
   Sidebar,
   Grid,
-  Input
+  Input,
+  Modal
 } from 'semantic-ui-react';
 import AuthUserModal from './Authentication';
 import { Footer } from './Footer';
@@ -155,7 +156,9 @@ const Layout = ({ children, auth, logoutUser }) => {
         auth={auth} 
         logoutUser={logoutUser}>
         {children}
-        {loginVisible ? <AuthUserModal setLoginVisible={setLoginVisible} /> : ''}
+        <Modal open={loginVisible}>
+          <AuthUserModal setLoginVisible={setLoginVisible} />
+        </Modal>
       </BasicLayout>
     </SideMenu>
   )
