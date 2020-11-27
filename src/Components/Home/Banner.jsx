@@ -8,6 +8,7 @@ export const Banner = () => {
     <>
       <BannerBackground className="banners">
         <BannerImage
+          className="first"
           src='/assets/banner2.png'
         />
         <BannerImage
@@ -29,11 +30,11 @@ export const Banner = () => {
       <style jsx global>{`
 
       .first {
-        -webkit-animation: bannermove 30s linear infinite;
-          -moz-animation: bannermove 30s linear infinite;
-            -ms-animation: bannermove 30s linear infinite;
-            -o-animation: bannermove 30s linear infinite;
-                animation: bannermove 30s linear infinite;
+        -webkit-animation: bannermove 90s linear infinite;
+          -moz-animation: bannermove 90s linear infinite;
+            -ms-animation: bannermove 90s linear infinite;
+            -o-animation: bannermove 90s linear infinite;
+                animation: bannermove 90s linear infinite;
       }
 
       @keyframes "bannermove" {
@@ -94,7 +95,6 @@ const BannerImage = styled.img`
 
   &:hover{
     cursor: pointer;
- 
     -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
     -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
     box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
