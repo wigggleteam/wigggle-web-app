@@ -9,7 +9,8 @@ import {
   Segment,
   Sidebar,
   Grid,
-  Input
+  Input,
+  Modal
 } from 'semantic-ui-react';
 import AuthUserModal from './Authentication';
 import { Footer } from './Footer';
@@ -124,7 +125,9 @@ const BasicLayout = ({ children, setVisible, setLoginVisible, auth, logoutUser }
         </MenuBox>
       </Menu.Menu>
       <MenuBox width='15vw' style={{ backgroundColor: '#fe4356', textAlign: 'center' }}>
-        <WhiteMenuText>Become a host</WhiteMenuText>
+        <Link href='/profile'>
+          <WhiteMenuText>Become a host</WhiteMenuText>
+        </Link>
       </MenuBox>
     </Menu>
     <div style={{minHeight: '80vh'}}>
@@ -153,7 +156,9 @@ const Layout = ({ children, auth, logoutUser }) => {
         auth={auth} 
         logoutUser={logoutUser}>
         {children}
-        {loginVisible ? <AuthUserModal setLoginVisible={setLoginVisible} /> : ''}
+        <Modal open={loginVisible}>
+          <AuthUserModal setLoginVisible={setLoginVisible} />
+        </Modal>
       </BasicLayout>
     </SideMenu>
   )

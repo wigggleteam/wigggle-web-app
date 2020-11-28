@@ -1,9 +1,7 @@
 import _ from 'lodash';
-import firebase from './config';
+import firebase from '../config';
 
-
-
-const db = firebase.firestore();
+export const db = firebase.firestore();
 
 export function getEventsFromFireStore(observer){
   return db.collection('events').onSnapshot(observer);
@@ -65,4 +63,8 @@ export const updateUserProfilePhoto = async (downloadURL, filename) => {
     console.log('Error happened while updating image', err);
     throw err;
   }
+}
+
+export const updateUserRoles  = async ({uid, roles}) => {
+  return db.collection('users').doc(uid).update({ roles });
 }

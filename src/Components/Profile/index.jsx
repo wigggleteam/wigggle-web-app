@@ -44,7 +44,7 @@ const sections = {
   }
 }
 
-class Profile extends Component {
+class UserProfile extends Component {
 
   constructor(props) {
     super(props);
@@ -89,9 +89,9 @@ class Profile extends Component {
   }
 }
 
-const AuthenticatedProfile = withAuthentication(Profile);
+const Profile = withAuthentication(UserProfile);
 
-export default AuthenticatedProfile;
+export default Profile;
 
 const Container = styled.div`
   width: 90vw;

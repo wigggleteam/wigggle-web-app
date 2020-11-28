@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import Router from 'next/router';
 import App from 'next/app';
-import Head from 'next/head'
-import { wrapper } from '../src/model/store';
-import { appWithTranslation } from '../src/i18n';
+import Head from 'next/head';
 import NProgress from 'nprogress';
+import { wrapper } from '../src/model/store';
+// import { appWithTranslation } from '../src/i18n';
 
 NProgress.configure({ minimum: 0.1 });
 
@@ -25,7 +26,7 @@ Router.onRouteChangeError = () => {
 
 class MyApp extends App {
   render() {
-    const { Component, pageProps } = this.props
+    const { Component, pageProps } = this.props;
     return (
       <>
         <Head>
@@ -33,8 +34,8 @@ class MyApp extends App {
         </Head>
         <Component {...pageProps} />
       </>
-    )
+    );
   }
 }
 
-export default wrapper.withRedux(appWithTranslation(MyApp))
+export default wrapper.withRedux(MyApp);

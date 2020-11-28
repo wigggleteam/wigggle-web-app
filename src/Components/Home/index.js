@@ -5,16 +5,14 @@ import { Discover } from './Discover';
 import { Events } from './Events';
 import { MyGroup } from './MyGroup';
 
-export const Home = () => {
-  return (
-    <>
-      <Banner />
-      <NearYou />
-      <Discover />
-      <Events />
-      <MyGroup />
-    </>
-  )
-}
+const Home = () => (
+  <>
+    <Banner />
+    <NearYou />
+    <Discover />
+    <Events />
+    <MyGroup />
+  </>
+);
 
 export default Home;

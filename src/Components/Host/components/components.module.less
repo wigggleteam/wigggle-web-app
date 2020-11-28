@@ -1,0 +1,42 @@
+
+.imageSelectorContainer {
+  .image {
+    width: 200px !important;
+    height: 100px !important;
+  } 
+}
+
+.modalContent {
+  width: 850px;
+
+  .selectCheck {
+    color: green;
+    font-size: 32px;
+    position: absolute;
+    z-index: 20;
+    top: 0px;
+    left: 10px;
+  }
+
+  .imageForSelection {
+    width: 400px !important;
+    height: 200px !important;
+    margin: 10px 0px;
+    opacity: 0.5;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    &:active {
+      border: none;
+    }
+
+    &.selected {
+      opacity: 1;
+
+    }
+
+  }
+}

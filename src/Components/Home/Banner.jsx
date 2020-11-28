@@ -1,39 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
 
-
-export const Banner = () => {
-  
-  return (
-    <>
-      <BannerBackground className="banners">
-        <BannerImage
-          src='/assets/banner2.png'
-        />
-        <BannerImage
-          src='/assets/banner1.png'
-        />
-        <BannerImage
-          src='/assets/banner2.png'
-        />
-        <BannerImage
-          src='/assets/banner1.png'
-        />
-        <BannerImage
-          src='/assets/banner2.png'
-        />
-        <BannerImage
-          src='/assets/banner1.png'
-        />
-      </BannerBackground>
-      <style jsx global>{`
+export const Banner = () => (
+  <>
+    <BannerBackground className="banners">
+      <BannerImage
+        className="first"
+        src="/assets/banner2.png"
+      />
+      <BannerImage
+        src="/assets/banner1.png"
+      />
+      <BannerImage
+        src="/assets/banner2.png"
+      />
+      <BannerImage
+        src="/assets/banner1.png"
+      />
+      <BannerImage
+        src="/assets/banner2.png"
+      />
+      <BannerImage
+        src="/assets/banner1.png"
+      />
+    </BannerBackground>
+    <style jsx global>
+      {`
 
       .first {
-        -webkit-animation: bannermove 30s linear infinite;
-          -moz-animation: bannermove 30s linear infinite;
-            -ms-animation: bannermove 30s linear infinite;
-            -o-animation: bannermove 30s linear infinite;
-                animation: bannermove 30s linear infinite;
+        -webkit-animation: bannermove 90s linear infinite;
+          -moz-animation: bannermove 90s linear infinite;
+            -ms-animation: bannermove 90s linear infinite;
+            -o-animation: bannermove 90s linear infinite;
+                animation: bannermove 90s linear infinite;
       }
 
       @keyframes "bannermove" {
@@ -68,11 +67,11 @@ export const Banner = () => {
         -o-animation-play-state: paused;
         animation-play-state: paused;
       }
-    `}</style>
-    <div style={{clear: 'both'}}></div>
-    </>
-  )
-}
+    `}
+    </style>
+    <div style={{ clear: 'both' }} />
+  </>
+);
 
 /* Styled Components */
 
@@ -94,7 +93,6 @@ const BannerImage = styled.img`
 
   &:hover{
     cursor: pointer;
- 
     -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
     -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
     box-shadow: 0px 3px 5px rgba(0,0,0,0.2);

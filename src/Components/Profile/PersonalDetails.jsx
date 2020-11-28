@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Image, Form, Button, Dimmer, Loader, Message, Step, Icon, Divider, Header } from 'semantic-ui-react';
 import { cities, states } from '../../utils/cityAndStates';
 import { isValidEmail, isValidMobile } from '../../utils/validations';
-import { setUsersInfoToFireStore } from '../../firebase/firestoreServices';
+import { setUsersInfoToFireStore } from '../../firebase/firestore/firestoreServices';
 import _ from 'lodash';
 import styled from 'styled-components';
 import PhotoUploadModal from './PhotoUploadModal';
