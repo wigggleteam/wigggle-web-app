@@ -1,33 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 
-
-export const Banner = () => {
-  
-  return (
-    <>
-      <BannerBackground className="banners">
-        <BannerImage
-          className="first"
-          src='/assets/banner2.png'
-        />
-        <BannerImage
-          src='/assets/banner1.png'
-        />
-        <BannerImage
-          src='/assets/banner2.png'
-        />
-        <BannerImage
-          src='/assets/banner1.png'
-        />
-        <BannerImage
-          src='/assets/banner2.png'
-        />
-        <BannerImage
-          src='/assets/banner1.png'
-        />
-      </BannerBackground>
-      <style jsx global>{`
+export const Banner = () => (
+  <>
+    <BannerBackground className="banners">
+      <BannerImage
+        className="first"
+        src="/assets/banner2.png"
+      />
+      <BannerImage
+        src="/assets/banner1.png"
+      />
+      <BannerImage
+        src="/assets/banner2.png"
+      />
+      <BannerImage
+        src="/assets/banner1.png"
+      />
+      <BannerImage
+        src="/assets/banner2.png"
+      />
+      <BannerImage
+        src="/assets/banner1.png"
+      />
+    </BannerBackground>
+    <style jsx global>
+      {`
 
       .first {
         -webkit-animation: bannermove 90s linear infinite;
@@ -69,11 +67,11 @@ export const Banner = () => {
         -o-animation-play-state: paused;
         animation-play-state: paused;
       }
-    `}</style>
-    <div style={{clear: 'both'}}></div>
-    </>
-  )
-}
+    `}
+    </style>
+    <div style={{ clear: 'both' }} />
+  </>
+);
 
 /* Styled Components */
 

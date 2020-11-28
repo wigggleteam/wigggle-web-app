@@ -18,6 +18,10 @@ export const fetchDataFromEventSnapshot = (snapshot) => {
     });
   }
 
+  if(data.eventDate && data.eventDate instanceof firebase.firestore.Timestamp){
+    data.eventDate = data.eventDate.toDate();
+  }
+
   return {
     ...data,
     id: snapshot.id

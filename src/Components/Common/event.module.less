@@ -1,7 +1,14 @@
 .card {
   cursor: 'pointer';
 
+  .ellipsis() {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
   .date {
+    .ellipsis();
     font-size: 14px;
     font-weight: bold;
     color: #F34949;
@@ -9,9 +16,7 @@
   }
 
   .title {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    .ellipsis();
   }
 
 }
