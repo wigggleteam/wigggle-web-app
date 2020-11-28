@@ -67,7 +67,6 @@ const Event = () => {
     }
 
     if (currentStep === 'step2') {
-      console.log(form.step2);
       setCurrentStep('step3');
     }
 
