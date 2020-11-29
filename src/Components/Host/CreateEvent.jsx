@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import {
   Grid, Icon, Step, Form, Input, TextArea, Button, Radio, Checkbox,
@@ -14,7 +15,10 @@ import CategoryBox from './components/CategoryBox';
 import ImageSelector from './components/ImageSelector';
 import styles from './style.less';
 
-const Event = () => {
+const CreateEvent = () => {
+
+  const currentUser = useSelector((state) => state.auth);
+
   const initialState = {
     step1: {
       category: null,
@@ -67,15 +71,13 @@ const Event = () => {
     }
 
     if (currentStep === 'step2') {
-      console.log(form.step2);
       setCurrentStep('step3');
     }
 
     if (currentStep === 'step3') {
       setPostingEvent(true);
-      console.log('Going to submit');
 
-      createNewEvent({
+      createNewEvent(currentUser, {
         categoryL1: form.step1.category,
         categoryL2: form.step1.subcategory,
         title: form.step1.title,
@@ -419,4 +421,4 @@ const Event = () => {
   );
 };
 
-export default Event;
+export default CreateEvent;

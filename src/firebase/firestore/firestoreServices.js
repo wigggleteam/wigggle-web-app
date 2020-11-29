@@ -3,18 +3,19 @@ import firebase from '../config';
 
 export const db = firebase.firestore();
 
-export function getEventsFromFireStore(observer){
+export function getEventsFromFireStore(observer) {
   return db.collection('events').onSnapshot(observer);
 }
 
-export async function getUsersInfoFromFireStore(uid){
+export async function getUsersInfoFromFireStore(uid) {
   const document = await db.collection('users').doc(uid).get();
-  if(document.exists){
+  if (document.exists) {
     return document.data();
   }
+  return {};
 }
 
-export async function setUsersInfoToFireStore(uid, data){
+export async function setUsersInfoToFireStore(uid, data) {
   const document = await db.collection('users').doc(uid).update({
     firstName: data.firstName,
     lastName: data.lastName,
@@ -27,15 +28,15 @@ export async function setUsersInfoToFireStore(uid, data){
   return document;
 }
 
-export function setUserProfileData(user, { firstName, lastName }){
+export function setUserProfileData(user, { firstName, lastName }) {
   return db.collection('users').doc(user.uid).set({
     firstName: firstName || user.displayName,
-    lastName: lastName || "",
+    lastName: lastName || '',
     email: user.email,
     photoURL: user.photoURL,
-    roles: ["USER"],
+    roles: ['USER'],
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  })
+  });
 }
 
 export const updateUserProfilePhoto = async (downloadURL, filename) => {
@@ -44,27 +45,25 @@ export const updateUserProfilePhoto = async (downloadURL, filename) => {
   const userDocRef = db.collection('users').doc(user.uid);
   try {
     const userDoc = await userDocRef.get();
-    if(!userDoc.exists){
+    if (!userDoc.exists) {
       throw new Error('User Ref is wrong here');
     }
     const userObj = userDoc.data();
-    console.log("This is the user we are going to update : ", userObj, );
+    console.log('This is the user we are going to update : ', userObj);
     console.log('Going to update the user profile photo in DB from', userDoc.data().photoURL, 'to', downloadURL);
-    await db.collection('users').doc(user.uid).update({ photoURL: downloadURL});
+    await db.collection('users').doc(user.uid).update({ photoURL: downloadURL });
     /**
      * Why we need to update the auth object lets keep their original profile picture in there..
      */
-    // await user.updateProfile({photoURL: downloadURL}); 
-    return await db.collection('users').doc(user.uid).collection('photos').add({ 
+    // await user.updateProfile({photoURL: downloadURL});
+    return await db.collection('users').doc(user.uid).collection('photos').add({
       name: filename,
-      url: downloadURL
-    })
-  }catch(err) {
+      url: downloadURL,
+    });
+  } catch (err) {
     console.log('Error happened while updating image', err);
     throw err;
   }
-}
+};
 
-export const updateUserRoles  = async ({uid, roles}) => {
-  return db.collection('users').doc(uid).update({ roles });
-}
+export const updateUserRoles = async ({ uid, roles }) => db.collection('users').doc(uid).update({ roles });
