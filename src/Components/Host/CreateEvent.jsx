@@ -16,7 +16,6 @@ import ImageSelector from './components/ImageSelector';
 import styles from './style.less';
 
 const CreateEvent = () => {
-
   const currentUser = useSelector((state) => state.auth);
 
   const initialState = {
@@ -48,7 +47,7 @@ const CreateEvent = () => {
   const [currentStep, setCurrentStep] = useState('step1');
   const [postingEvent, setPostingEvent] = useState(false);
   const [form, setForm] = useState(initialState);
-  const [nextDisabled, setNextDisabled] = useState(false);
+  const [nextDisabled, setNextDisabled] = useState(true);
   const [defaultImages, setDefaultImages] = useState({
     party: {
       name: 'Party',
