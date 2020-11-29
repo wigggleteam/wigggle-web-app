@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Image } from 'semantic-ui-react'
+import { Image } from 'semantic-ui-react';
 
-export const Banner = () => (
-  <BannerImage src='/assets/banner1.png' />
-)
+export const Banner = ({ imagesUrl }) => {
+  console.log(imagesUrl);
+  return (
+    <BannerImage src={imagesUrl[0]} />
+  );
+};
 
 const BannerImage = styled(Image)`
   margin: 10px auto;
-  width: 100%;
+  width: 600px;
+  height: 300px;
 `;

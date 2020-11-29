@@ -21,7 +21,6 @@ export const createNewEvent = async (authorSession, {
 
   const { user, userInfo } = authorSession;
 
-
   db.collection('events').add({
     verification: 'pending',
     amenities,
@@ -44,4 +43,18 @@ export const createNewEvent = async (authorSession, {
     title,
     description,
   });
+};
+
+export const fetchEventFromId = async (eventId) => {
+  if (!eventId) return {};
+
+  const document = await db.collection('events').doc(eventId).get();
+  if (document.exists) {
+    const eventObj = document.data();
+    if (eventObj.eventDate && eventObj.eventDate instanceof firebase.firestore.Timestamp) {
+      eventObj.eventDate = eventObj.eventDate.toDate();
+    }
+    return eventObj;
+  }
+  return {};
 };

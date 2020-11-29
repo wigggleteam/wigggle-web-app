@@ -1,15 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
-import { Grid, Placeholder, Segment } from 'semantic-ui-react';
+import { Grid, Placeholder } from 'semantic-ui-react';
 import Link from 'next/link';
 import { EventCard } from '../Common/EventCard';
 
 export const Events = ({ events = [] }) => {
   if (!events.length || events.length === 0) {
     return (
-      <Grid columns={3} stackable>
+      <Grid columns={4} stackable>
         {
-          _.map([1, 2, 3, 4, 5, 6], () => (
+          _.map([1, 2, 3, 4, 5, 6, 7, 8], () => (
             <Grid.Column>
               <div style={{ paddingTop: '50px' }}>
                 <Placeholder>
@@ -34,11 +34,11 @@ export const Events = ({ events = [] }) => {
     <Grid columns={4}>
       <Grid.Row>
         {_.map(events, (event) => {
-          console.log(event);
+          const { id } = event;
           return (
             <Grid.Column key={event.id}>
               <div style={{ margin: '10px 0' }}>
-                <Link href="/event">
+                <Link href={`/event/${id}/`}>
                   <EventCard key={event.id} event={event} />
                 </Link>
               </div>

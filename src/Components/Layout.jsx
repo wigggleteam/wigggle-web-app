@@ -129,11 +129,6 @@ const BasicLayout = ({
             }}
             >
               Wigggle
-              <span style={{ fontSize: '11px', marginLeft: '5px' }}>
-                v:
-                {' '}
-                {config.version || '--'}
-              </span>
             </Logo>
           </Link>
         </CenterBox>
