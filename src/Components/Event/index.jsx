@@ -57,7 +57,8 @@ const Event = (props) => {
   console.log(eventInfo);
   const shareUrl = window.location.href;
   const {
-    title, tags, description, hosts, imagesUrl, tickets, eventDate } = eventInfo;
+    title, tags, description, hosts, imagesUrl, tickets, eventDate, amenities,
+  } = eventInfo;
 
   if (_.isEmpty(eventInfo)) {
     return 'something went wrong';
@@ -74,7 +75,7 @@ const Event = (props) => {
       <Grid>
         <Grid.Row>
           <Grid.Column width={10}>
-            <TC />
+            <TC amenities={amenities} />
           </Grid.Column>
           <Grid.Column width={6}>
             <Location />
