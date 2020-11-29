@@ -94,7 +94,10 @@ const CreateEvent = () => {
 
   const handleCategorySelect = () => {
     setForm((form) => (
-      { ...form, step1: { ...form.step1, category: selectedCategory, subcategory: selectedSubCategory } }
+      {
+        ...form,
+        step1: { ...form.step1, category: selectedCategory, subcategory: selectedSubCategory },
+      }
     ));
   };
 
@@ -290,7 +293,7 @@ const CreateEvent = () => {
       setForm((form) => (
         { ...form, step3: { ...form.step3, imagesUrls } }
       ));
-    }
+    };
 
     const addTicket = () => {
       const ticketUpdated = _.cloneDeep(form.step3.tickets);
